@@ -31,4 +31,5 @@ public class Hand {
 	public Card nthCard(int n) {
 		return cards.get(n);
 	}
+	
 }
