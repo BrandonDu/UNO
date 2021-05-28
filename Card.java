@@ -5,6 +5,7 @@ public class Card {
 	public static final int YELLOW = 2;
 	public static final int GREEN = 3;
 	public static final int BLUE = 4;
+	public static final int WILD = 5;
 
 	public static final int REVERSE = 10;
 	public static final int SKIP = 11;
@@ -32,6 +33,9 @@ public class Card {
 		}
 		else if(color.toLowerCase().equals("blue")) {
 			this.color = BLUE;
+		}
+		else if(color.toLowerCase().equals("wild")) {
+			this.color = WILD;
 		}
 		
 		try {
@@ -76,9 +80,11 @@ public class Card {
 		else if(this.color==3) {
 			color = "Green";
 		}
-		else 
+		else if(this.color==4) {
 			color = "Blue";
-		
+		} else {
+			color = "Wild";
+		}
 		if(0<=this.value && this.value<=9) {
 			value = Integer.toString(this.value);
 		}

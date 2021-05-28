@@ -37,7 +37,35 @@ public class Game {
 	}
 	
 	public static Hand makeDeck() {
-		return null;
+		deck.addCard(new Card(0, 1));
+		for (int i=1; i<13; i++) {
+			for (int x=0; x<2; x++) {
+				deck.addCard(new Card (i, 1));
+			}
+		}
+		deck.addCard(new Card(0, 2));
+		for (int i=1; i<13; i++) {
+			for (int x=0; x<2; x++) {
+				deck.addCard(new Card (i, 2));
+			}
+		}
+		deck.addCard(new Card(0, 3));
+		for (int i=1; i<13; i++) {
+			for (int x=0; x<2; x++) {
+				deck.addCard(new Card (i, 3));
+			}
+		}
+		deck.addCard(new Card(0, 4));
+		for (int i=1; i<13; i++) {
+			for (int x=0; x<2; x++) {
+				deck.addCard(new Card (i, 4));
+			}
+		}
+		for (int x=0; x<2; x++) {
+			deck.addCard(newCard (13, 5));
+			deck.addCard(newCard (14, 5));
+		}
+		return deck;
 	}
 	
 	public void dealCard(Hand hand) {
