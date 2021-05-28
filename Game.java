@@ -69,7 +69,6 @@ public class Game {
 
 	public void dealCard(Hand hand) {
 		int randIndex = (int) (deck.numberOfCards() * Math.random());
-
 		hand.addCard(deck.nthCard(randIndex));
 		deck.removeCard(deck.nthCard(randIndex));
 	}
