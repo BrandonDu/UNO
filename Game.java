@@ -1,11 +1,10 @@
 
 public class Game {
 	private Hand playerHand;
-	private Hand deck;
+	private static Hand deck;
 	private ComputerStrategy cp1;
 	private ComputerStrategy cp2;
 	private Card startingCard;
-	private int stackValue;
 	private int turn;
 	
 	Game(boolean multiplayer) {
@@ -37,33 +36,33 @@ public class Game {
 	}
 	
 	public static Hand makeDeck() {
-		deck.addCard(new Card(0, 1));
+		deck.addCard(new Card(0,1));
 		for (int i=1; i<13; i++) {
 			for (int x=0; x<2; x++) {
-				deck.addCard(new Card (i, 1));
+				deck.addCard(new Card(i,1));
 			}
 		}
 		deck.addCard(new Card(0, 2));
 		for (int i=1; i<13; i++) {
 			for (int x=0; x<2; x++) {
-				deck.addCard(new Card (i, 2));
+				deck.addCard(new Card(i,2));
 			}
 		}
 		deck.addCard(new Card(0, 3));
 		for (int i=1; i<13; i++) {
 			for (int x=0; x<2; x++) {
-				deck.addCard(new Card (i, 3));
+				deck.addCard(new Card(i,3));
 			}
 		}
 		deck.addCard(new Card(0, 4));
 		for (int i=1; i<13; i++) {
 			for (int x=0; x<2; x++) {
-				deck.addCard(new Card (i, 4));
+				deck.addCard(new Card(i,4));
 			}
 		}
 		for (int x=0; x<2; x++) {
-			deck.addCard(newCard (13, 5));
-			deck.addCard(newCard (14, 5));
+			deck.addCard(new Card(13,5));
+			deck.addCard(new Card(14,5));
 		}
 		return deck;
 	}
