@@ -1,3 +1,4 @@
+import javax.swing.ImageIcon;
 
 public class Card {
 
@@ -15,6 +16,7 @@ public class Card {
 
 	private int color;
 	private int value;
+	private ImageIcon cardImage;
 
 	Card(int color, int value) {
 		this.color = color;
