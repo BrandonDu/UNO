@@ -47,7 +47,7 @@ public class UNO implements MouseListener {
 		frame.setVisible(true);
 	}
 
-	public static ImageIcon scaleImage(ImageIcon image, double xFactor, double yFactor) {
+	public ImageIcon scaleImage(ImageIcon image, double xFactor, double yFactor) {
 		AffineTransform scaleTransform = new AffineTransform();
 		scaleTransform.scale(xFactor, yFactor);
 		Image img = image.getImage();
@@ -58,19 +58,25 @@ public class UNO implements MouseListener {
 	}
 	
 	
-	public static JPanel setOptionScreen() {
+	public void setOptionScreen() {
 		ImageIcon background = new ImageIcon("Pictures/optionScreen.jpg");
-		background = scaleImage(background, 1.2, 1.2);
+		background = scaleImage(background, 1.35, 1.35);
 		Image img = background.getImage();
-		return null;
+		optionScreen = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(img, 0, 0, null);
+			}
+		};
+		frame.setContentPane(optionScreen);
+		frame.validate();
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource()==homeScreen) {
-			
-			optionScreen = new JPanel();
-			
+			setOptionScreen();
 		}
 
 	}
