@@ -93,7 +93,7 @@ public class UNO implements MouseListener {
 		// just me testing how this works
 		// optionTitle.setOpaque(true);
 		// optionTitle.setBackground(Color.BLACK);
-
+ 
 		optionTitle.setForeground(Color.WHITE);
 		Dimension size3 = optionTitle.getPreferredSize();
 		optionTitle.setBounds(600, 100, size3.width, size3.height);
@@ -103,7 +103,7 @@ public class UNO implements MouseListener {
 		System.out.println(frame.getPreferredSize());
 		frame.setContentPane(optionScreen);
 		frame.revalidate();
-
+		//this is comment
 	}
 
 	@Override
