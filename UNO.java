@@ -1,10 +1,12 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import javax.swing.*;
 
-public class UNO implements MouseListener {
+public class UNO implements ActionListener, MouseListener {
 
 	private Game game;
 	private JFrame frame;
@@ -74,44 +76,65 @@ public class UNO implements MouseListener {
 		twoPlayer.setFont(new Font("Tacoma", Font.PLAIN, 18));
 		twoPlayer.setBorderPainted(false);
 		twoPlayer.setOpaque(true);
-		twoPlayer.setBackground(Color.CYAN);
+		twoPlayer.setBackground(Color.BLACK);
+		twoPlayer.setForeground(Color.WHITE);
 		twoPlayer.setPreferredSize(new Dimension(200, 100));
 		Dimension size1 = twoPlayer.getPreferredSize();
 		twoPlayer.setBounds(324, 550, size1.width, size1.height);
 		optionScreen.add(twoPlayer);
+		twoPlayer.addActionListener(this);
+		twoPlayer.setActionCommand("TWO_PLAYER_BUTTON");
 
 		threePlayer = new JButton("Three Players");
 		threePlayer.setFont(new Font("Tacoma", Font.PLAIN, 18));
+		threePlayer.setFont(new Font("Tacoma", Font.PLAIN, 18));
+		threePlayer.setBorderPainted(false);
+		threePlayer.setOpaque(true);
+		threePlayer.setBackground(Color.BLACK);
+		threePlayer.setForeground(Color.WHITE);
 		threePlayer.setPreferredSize(new Dimension(200, 100));
 		Dimension size2 = threePlayer.getPreferredSize();
-		threePlayer.setBounds(800, 550, size2.width, size2.height);
+		threePlayer.setBounds(780, 550, size2.width, size2.height);
 		optionScreen.add(threePlayer);
+		threePlayer.addActionListener(this);
+		threePlayer.setActionCommand("THREE_PLAYER_BUTTON");
 
-		JLabel optionTitle = new JLabel("Choose a game type");
-		optionTitle.setFont(new Font("Tacoma", Font.PLAIN, 30));
+		JLabel optionTitle = new JLabel("Choose a Game Type");
+		optionTitle.setFont(new Font("Tacoma", Font.BOLD, 60));
 
-		// just me testing how this works
-		// optionTitle.setOpaque(true);
-		// optionTitle.setBackground(Color.BLACK);
- 
-		optionTitle.setForeground(Color.WHITE);
+		optionTitle.setForeground(Color.BLACK);
 		Dimension size3 = optionTitle.getPreferredSize();
-		optionTitle.setBounds(600, 100, size3.width, size3.height);
+		optionTitle.setBounds(335, 350, size3.width, size3.height);
 
 		optionScreen.add(optionTitle);
 
-		System.out.println(frame.getPreferredSize());
 		frame.setContentPane(optionScreen);
 		frame.revalidate();
-		//this is comment
+	}
+	
+	public void setTwoPlayerGameScreen() {
+		optionScreen = new JPanel();
+		optionScreen.setBackground(new Color(157, 41, 51));
+		optionScreen.setLayout(null);
+		frame.setContentPane(optionScreen);
+		frame.setVisible(true);
+		frame.pack();
 	}
 
+	public void setThreePlayerGameScreen() {
+		optionScreen = new JPanel();
+		optionScreen.setBackground(new Color(157, 41, 51));
+		optionScreen.setLayout(null);
+		frame.setContentPane(optionScreen);
+		frame.setVisible(true);
+		frame.pack();
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource() == homeScreen) {
 			setOptionScreen();
 		}
-
 	}
 
 	@Override
@@ -137,10 +160,26 @@ public class UNO implements MouseListener {
 		// TODO Auto-generated method stub
 
 	}
+	
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String event = e.getActionCommand();
+		switch(event) {
+		case "TWO_PLAYER_BUTTON" :
+			System.out.println("twoPlayer");
+			setTwoPlayerGameScreen();
+			break;
+		case "THREE_PLAYER_BUTTON" :
+			System.out.println("threePlayer");
+			setThreePlayerGameScreen();
+		}
+		
+	}
+	
 	public static void main(String[] args) {
 		UNO uno = new UNO();
-		uno.setOptionScreen();
 	}
+
 
 }
