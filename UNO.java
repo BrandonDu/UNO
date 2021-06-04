@@ -12,6 +12,7 @@ public class UNO implements ActionListener, MouseListener {
 	private JFrame frame;
 	private JPanel homeScreen;
 	private JPanel optionScreen;
+	private JPanel twoPlayerGameScreen;
 	private JButton twoPlayer;
 	private JButton threePlayer;
 
@@ -111,12 +112,39 @@ public class UNO implements ActionListener, MouseListener {
 		frame.setContentPane(optionScreen);
 		frame.revalidate();
 	}
-	
+
 	public void setTwoPlayerGameScreen() {
-		optionScreen = new JPanel();
-		optionScreen.setBackground(new Color(157, 41, 51));
-		optionScreen.setLayout(null);
-		frame.setContentPane(optionScreen);
+		twoPlayerGameScreen = new JPanel();
+		twoPlayerGameScreen.setBackground(new Color(157, 41, 51));
+		twoPlayerGameScreen.setLayout(null);
+
+		// ImageIcon card1 = new ImageIcon("Pictures/B+2.png");
+		// card1 = scaleImage(card1, 0.3, 0.3);
+		// JLabel imageLabel = new JLabel(card1);
+		//
+		// // Dimension dim = imageLabel.getPreferredSize();
+		// System.out.println(dim);
+		// imageLabel.setBounds(200, 650, dim.width, dim.height);
+		// optionScreen.add(imageLabel);
+		//
+		// ImageIcon card2 = new ImageIcon("Pictures/B+2.png");
+		// card2 = scaleImage(card2, 0.3, 0.3);
+		// JLabel card2image = new JLabel(card2);
+		// Dimension dim2 = card2image.getPreferredSize();
+		// card2image.setBounds(973, 650, dim2.width, dim2.height);
+		// optionScreen.add(card2image);
+
+		for (int i = 0; i < 15; i++) {
+			Card card = new Card(2, 2);
+			ImageIcon image = card.getImage();
+			image = scaleImage(image, 0.3, 0.3);
+			JLabel imageLabel = new JLabel(image);
+			Dimension dim = imageLabel.getPreferredSize();
+			imageLabel.setBounds(971 - 52 * i, 650, dim.width, dim.height);
+			imageLabel.addMouseListener(this);
+			twoPlayerGameScreen.add(imageLabel);
+		}
+		frame.setContentPane(twoPlayerGameScreen);
 		frame.setVisible(true);
 		frame.pack();
 	}
@@ -129,9 +157,10 @@ public class UNO implements ActionListener, MouseListener {
 		frame.setVisible(true);
 		frame.pack();
 	}
-	
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		System.out.println(e.getSource());
 		if (e.getSource() == homeScreen) {
 			setOptionScreen();
 		}
@@ -160,26 +189,24 @@ public class UNO implements ActionListener, MouseListener {
 		// TODO Auto-generated method stub
 
 	}
-	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String event = e.getActionCommand();
-		switch(event) {
-		case "TWO_PLAYER_BUTTON" :
-			System.out.println("twoPlayer");
+		switch (event) {
+		case "TWO_PLAYER_BUTTON":
 			setTwoPlayerGameScreen();
 			break;
-		case "THREE_PLAYER_BUTTON" :
-			System.out.println("threePlayer");
+		case "THREE_PLAYER_BUTTON":
 			setThreePlayerGameScreen();
 		}
-		
-	}
-	
-	public static void main(String[] args) {
-		UNO uno = new UNO();
+
 	}
 
+	public static void main(String[] args) {
+		UNO uno = new UNO();
+		System.out.println(uno.frame.getPreferredSize());
+		uno.setTwoPlayerGameScreen();
+	}
 
 }
