@@ -8,7 +8,7 @@ public class Game {
 	private int turn;
 
 	Game(boolean multiplayer) {
-		deck = Game.makeDeck();
+		setDeck(Game.makeDeck());
 
 		setPlayerHand(new Hand());
 		setCp1(new ComputerStrategy());
@@ -35,48 +35,48 @@ public class Game {
 	}
 
 	public static Hand makeDeck() {
-		deck = new Hand();
-		deck.addCard(new Card(1, 0));
+		setDeck(new Hand());
+		getDeck().addCard(new Card(1, 0));
 		for (int i = 1; i < 13; i++) {
 			for (int j = 0; j < 2; j++) {
-				deck.addCard(new Card(1, i));
+				getDeck().addCard(new Card(1, i));
 			}
 		}
-		deck.addCard(new Card(2, 0));
+		getDeck().addCard(new Card(2, 0));
 		for (int i = 1; i < 13; i++) {
 			for (int j = 0; j < 2; j++) {
-				deck.addCard(new Card(2, i));
+				getDeck().addCard(new Card(2, i));
 			}
 		}
-		deck.addCard(new Card(3, 0));
+		getDeck().addCard(new Card(3, 0));
 		for (int i = 1; i < 13; i++) {
 			for (int j = 0; j < 2; j++) {
-				deck.addCard(new Card(3, i));
+				getDeck().addCard(new Card(3, i));
 			}
 		}
-		deck.addCard(new Card(4, 0));
+		getDeck().addCard(new Card(4, 0));
 		for (int i = 1; i < 13; i++) {
 			for (int j = 0; j < 2; j++) {
-				deck.addCard(new Card(4, i));
+				getDeck().addCard(new Card(4, i));
 			}
 		}
 		for (int i = 0; i < 2; i++) {
-			deck.addCard(new Card(5, 13));
-			deck.addCard(new Card(5, 14));
+			getDeck().addCard(new Card(5, 13));
+			getDeck().addCard(new Card(5, 14));
 		}
-		return deck;
+		return getDeck();
 	}
 
 	public void dealCard(Hand hand) {
-		int randIndex = (int) (deck.numberOfCards() * Math.random());
-		hand.addCard(deck.nthCard(randIndex));
-		deck.removeCard(deck.nthCard(randIndex));
+		int randIndex = (int) (getDeck().numberOfCards() * Math.random());
+		hand.addCard(getDeck().nthCard(randIndex));
+		getDeck().removeCard(getDeck().nthCard(randIndex));
 	}
 
 	public Card deal() {
-		int randIndex = (int) (deck.numberOfCards() * Math.random());
-		deck.removeCard(deck.nthCard(randIndex));
-		return deck.nthCard(randIndex);
+		int randIndex = (int) (getDeck().numberOfCards() * Math.random());
+		getDeck().removeCard(getDeck().nthCard(randIndex));
+		return getDeck().nthCard(randIndex);
 	}
 
 	public int getTurn() {
@@ -110,14 +110,22 @@ public class Game {
 	}
 
 	public void setStartingCard() {
-		int randIndex = (int) (deck.numberOfCards() * Math.random());
-		Card card = deck.nthCard(randIndex);
+		int randIndex = (int) (getDeck().numberOfCards() * Math.random());
+		Card card = getDeck().nthCard(randIndex);
 		while(card.getValue()>9 || card.getColor()==Card.WILD) {
-			randIndex = (int) (deck.numberOfCards() * Math.random());
-			card = deck.nthCard(randIndex);
+			randIndex = (int) (getDeck().numberOfCards() * Math.random());
+			card = getDeck().nthCard(randIndex);
 		}
 		this.startingCard = card;
-		deck.removeCard(card);
+		getDeck().removeCard(card);
+	}
+
+	public static Hand getDeck() {
+		return deck;
+	}
+
+	public static void setDeck(Hand deck) {
+		Game.deck = deck;
 	}
 
 }

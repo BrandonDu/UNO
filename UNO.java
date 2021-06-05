@@ -114,75 +114,68 @@ public class UNO implements ActionListener, MouseListener {
 	}
 
 	public void setTwoPlayerGameScreen() {
-		twoPlayerGameScreen = new JPanel();
+		game = new Game(false);
+		twoPlayerGameScreen = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				// display number of remaining cards
+				g.setColor(new Color(240, 240, 240, 175));
+				g.fillOval(543, 350, 40, 40);
+				g.setColor(Color.BLACK);
+				g.drawString(Integer.toString(Game.getDeck().numberOfCards()), 555, 375);
+			}
+		};
 		twoPlayerGameScreen.setBackground(new Color(157, 41, 51));
 		twoPlayerGameScreen.setLayout(null);
 
-		// ImageIcon card1 = new ImageIcon("Pictures/B+2.png");
-		// card1 = scaleImage(card1, 0.3, 0.3);
-		// JLabel imageLabel = new JLabel(card1);
-		//
-		// // Dimension dim = imageLabel.getPreferredSize();
-		// System.out.println(dim);
-		// imageLabel.setBounds(200, 650, dim.width, dim.height);
-		// optionScreen.add(imageLabel);
-		//
-		// ImageIcon card2 = new ImageIcon("Pictures/B+2.png");
-		// card2 = scaleImage(card2, 0.3, 0.3);
-		// JLabel card2image = new JLabel(card2);
-		// Dimension dim2 = card2image.getPreferredSize();
-		// card2image.setBounds(973, 650, dim2.width, dim2.height);
-		// optionScreen.add(card2image);
-
-//		for (int i = 0; i < 15; i++) {
-//			Card card = new Card(2, 2);
-//			ImageIcon image = card.getImage();
-//			image = scaleImage(image, 0.3, 0.3);
-//			JLabel imageLabel = new JLabel(image);
-//			Dimension dim = imageLabel.getPreferredSize();
-//			imageLabel.setBounds(971 - 52 * i, 650, dim.width, dim.height);
-//			imageLabel.addMouseListener(this);
-//			twoPlayerGameScreen.add(imageLabel);
-//		}
-
-		game = new Game(false);
 //display player cards
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < game.getPlayerHand().numberOfCards(); i++) {
 			Card card = game.getPlayerHand().nthCard(i);
-			System.out.println(card);
 			ImageIcon image = card.getImage();
 			image = scaleImage(image, 0.3, 0.3);
 			JLabel imageLabel = new JLabel(image);
 			Dimension dim = imageLabel.getPreferredSize();
-			imageLabel.setBounds(412 - 52 * i, 670, dim.width, dim.height);
+			imageLabel.setBounds(412 - 52 * i, 700, dim.width, dim.height);
 			twoPlayerGameScreen.add(imageLabel);
 		}
+		
 //display computer cards
-		for(int i=0; i<7; i++) {
+		for (int i = 0; i < game.getCp1().getHand().numberOfCards(); i++) {
 			Card card = game.getCp1().getHand().nthCard(i);
 			ImageIcon image = card.getImage();
 			image = scaleImage(image, 0.3, 0.3);
 			JLabel imageLabel = new JLabel(image);
 			Dimension dim = imageLabel.getPreferredSize();
-			imageLabel.setBounds(1073 - 52 * i, 107, dim.width, dim.height);
+			imageLabel.setBounds(1073 - 52 * i, 77, dim.width, dim.height);
 			twoPlayerGameScreen.add(imageLabel);
 		}
 		
-		
+//display deck
+		Card card = new Card(1, 1);
+		ImageIcon cardImage = card.getImage();
+		cardImage = scaleImage(cardImage, 0.3, 0.3);
+		JLabel cardLabel = new JLabel(cardImage);
+		Dimension cardDim = cardLabel.getPreferredSize();
+		cardLabel.setBounds(500, 400, cardDim.width, cardDim.height);
 		ImageIcon startingCard = game.getStartingCard().getImage();
 		startingCard = scaleImage(startingCard, 0.3, 0.3);
-		JLabel imageLabel = new JLabel(startingCard);
-		System.out.println(imageLabel.getPreferredSize());
+		twoPlayerGameScreen.add(cardLabel);
 
+//display startingCard
+		JLabel imageLabel = new JLabel(startingCard);
 		Dimension dim = imageLabel.getPreferredSize();
 		imageLabel.setBounds(750, 400, dim.width, dim.height);
 		twoPlayerGameScreen.add(imageLabel);
-		
+
 		frame.setContentPane(twoPlayerGameScreen);
 		frame.setVisible(true);
 		frame.pack();
 	}
-
+	
+	public void updateTwoPlayerGameScreen() {
+		twoPlayerGameScreen.repaint();
+	}
+	
 	public void setThreePlayerGameScreen() {
 		optionScreen = new JPanel();
 		optionScreen.setBackground(new Color(157, 41, 51));
