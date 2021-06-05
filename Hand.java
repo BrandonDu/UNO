@@ -108,57 +108,56 @@ public class Hand {
 		}
 	}
 
-	static void printArray(ArrayList<Card> arr)
-	{
-		for(int i = 0; i < arr.size(); i++)
+	static void printArray(ArrayList<Card> arr) {
+		for (int i = 0; i < arr.size(); i++)
 			System.out.println(arr.get(i));
+		System.out.println();
 	}
+
 	static int[] findNumberOfEachColor(ArrayList<Card> arr) {
 		int[] ans = new int[5];
-		for(Card card : arr) {
-			if(card.getColor()==Card.RED) 
+		for (Card card : arr) {
+			if (card.getColor() == Card.RED)
 				ans[0]++;
-			else if(card.getColor()==Card.YELLOW) 
+			else if (card.getColor() == Card.YELLOW)
 				ans[1]++;
-			else if(card.getColor()==Card.GREEN) 
+			else if (card.getColor() == Card.GREEN)
 				ans[2]++;
-			else if(card.getColor()==Card.BLUE) 
+			else if (card.getColor() == Card.BLUE)
 				ans[3]++;
 			else
 				ans[4]++;
 		}
 		return ans;
 	}
+
 	public static ArrayList<Card> sortCards(ArrayList<Card> arr, boolean number, boolean color) {
-		if(color) {
-			quickSort(arr, 0, arr.size()-1, true);
+		if (color) {
+			quickSort(arr, 0, arr.size() - 1, true);
 			printArray(arr);
-			if(number) {
+			if (number) {
 				int[] nums = findNumberOfEachColor(arr);
 				int start = 0;
-				int end = nums[0]-1;
-				for(int i=0; i<5; i++) {
-					System.out.println(nums[i]);
-				}
+				int end = nums[0] - 1;
 				int i = 0;
-				while(end<arr.size() && i<4) {
+				while (end < arr.size() && i < 4) {
 					quickSort(arr, start, end, false);
 					start += nums[i];
-					end += nums[i+1];
+					end += nums[i + 1];
 					i++;
 				}
 				start += nums[i];
-				quickSort(arr, start, arr.size()-1, false);
+				quickSort(arr, start, arr.size() - 1, false);
 			}
-		}
-		else 
-			quickSort(arr, 0, arr.size()-1, false);
-		
+		} else
+			quickSort(arr, 0, arr.size() - 1, false);
+
 		return arr;
 	}
 
 	public static void main(String[] args) {
 		Game game = new Game(false);
+		game.getPlayerHand().addCard(new Card(Card.WILD, Card.WILD_CARD));
 		printArray(game.getPlayerHand().getCards());
 		System.out.println("Sorted array: ");
 		sortCards(game.getPlayerHand().getCards(), true, true);
