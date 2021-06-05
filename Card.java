@@ -39,7 +39,7 @@ public class Card {
 
 		try {
 			this.value = Integer.parseInt(value);
-			setColor();
+			this.setColor();
 		} catch (NumberFormatException ex) {
 			if (value.toLowerCase().equals("reverse")) {
 				this.value = REVERSE;
@@ -52,7 +52,7 @@ public class Card {
 			} else if (value.toLowerCase().equals("wild card")) {
 				this.value = WILD_CARD;
 			}
-			setColor();
+			this.setColor();
 		}
 	}
 
@@ -274,5 +274,9 @@ public class Card {
 				value = "Wild Card";
 		}
 		return color + " " + value;
+	}
+	public static void main(String[] args) {
+		Card card = new Card(Card.WILD, Card.WILD_CARD);
+		System.out.println(card.getImage());
 	}
 }

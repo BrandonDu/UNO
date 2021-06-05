@@ -5,31 +5,40 @@ public class Hand {
 	private ArrayList<Card> cards;
 	
 	Hand() {
-		cards = new ArrayList<Card>();
+		setCards(new ArrayList<Card>());
 	}
 	
 	public void addCard(Card card) {
-		cards.add(card);
+		getCards().add(card);
 	}
 	
 	public void removeCard(Card card) {
-		if(cards.size()>0) {
-			for(Card c: cards) {
+		if(getCards().size()>0) {
+			for(Card c: getCards()) {
 				if(c.toString().equals(card.toString())) {
-					cards.remove(c);
+					getCards().remove(c);
 					return;
 				}
 			}
 		}
-		cards.remove(card);
+		getCards().remove(card);
 	}
 	
 	public int numberOfCards() {
-		return cards.size();
+		return getCards().size();
 	}
 	
 	public Card nthCard(int n) {
-		return cards.get(n);
+		return getCards().get(n);
 	}
+
+	public ArrayList<Card> getCards() {
+		return cards;
+	}
+
+	public void setCards(ArrayList<Card> cards) {
+		this.cards = cards;
+	}
+	
 	
 }

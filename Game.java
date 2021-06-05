@@ -8,22 +8,21 @@ public class Game {
 	private int turn;
 
 	Game(boolean multiplayer) {
-
 		deck = Game.makeDeck();
 
-		playerHand = new Hand();
-		cp1 = new ComputerStrategy();
+		setPlayerHand(new Hand());
+		setCp1(new ComputerStrategy());
 
 		if (multiplayer) {
 			cp2 = new ComputerStrategy();
 		}
 
 		for (int i = 0; i < 7; i++) {
-			dealCard(playerHand);
+			dealCard(getPlayerHand());
 		}
 
 		for (int i = 0; i < 7; i++) {
-			dealCard(cp1.getHand());
+			dealCard(getCp1().getHand());
 		}
 
 		if (multiplayer) {
@@ -32,37 +31,38 @@ public class Game {
 
 		turn = 0;
 
-		startingCard = deal();
+		setStartingCard();
 	}
 
 	public static Hand makeDeck() {
-		deck.addCard(new Card(0, 1));
+		deck = new Hand();
+		deck.addCard(new Card(1, 0));
 		for (int i = 1; i < 13; i++) {
 			for (int j = 0; j < 2; j++) {
-				deck.addCard(new Card(i, 1));
+				deck.addCard(new Card(1, i));
 			}
 		}
-		deck.addCard(new Card(0, 2));
+		deck.addCard(new Card(2, 0));
 		for (int i = 1; i < 13; i++) {
 			for (int j = 0; j < 2; j++) {
-				deck.addCard(new Card(i, 2));
+				deck.addCard(new Card(2, i));
 			}
 		}
-		deck.addCard(new Card(0, 3));
+		deck.addCard(new Card(3, 0));
 		for (int i = 1; i < 13; i++) {
 			for (int j = 0; j < 2; j++) {
-				deck.addCard(new Card(i, 3));
+				deck.addCard(new Card(3, i));
 			}
 		}
-		deck.addCard(new Card(0, 4));
+		deck.addCard(new Card(4, 0));
 		for (int i = 1; i < 13; i++) {
 			for (int j = 0; j < 2; j++) {
-				deck.addCard(new Card(i, 4));
+				deck.addCard(new Card(4, i));
 			}
 		}
 		for (int i = 0; i < 2; i++) {
-			deck.addCard(new Card(13, 5));
-			deck.addCard(new Card(14, 5));
+			deck.addCard(new Card(5, 13));
+			deck.addCard(new Card(5, 14));
 		}
 		return deck;
 	}
@@ -87,6 +87,37 @@ public class Game {
 		turn = (turn + 1) % 3;
 		if (skip)
 			turn = (turn + 1) % 3;
+	}
+
+	public Hand getPlayerHand() {
+		return playerHand;
+	}
+
+	public void setPlayerHand(Hand playerHand) {
+		this.playerHand = playerHand;
+	}
+
+	public ComputerStrategy getCp1() {
+		return cp1;
+	}
+
+	public void setCp1(ComputerStrategy cp1) {
+		this.cp1 = cp1;
+	}
+
+	public Card getStartingCard() {
+		return startingCard;
+	}
+
+	public void setStartingCard() {
+		int randIndex = (int) (deck.numberOfCards() * Math.random());
+		Card card = deck.nthCard(randIndex);
+		while(card.getValue()>9 || card.getColor()==Card.WILD) {
+			randIndex = (int) (deck.numberOfCards() * Math.random());
+			card = deck.nthCard(randIndex);
+		}
+		this.startingCard = card;
+		deck.removeCard(card);
 	}
 
 }

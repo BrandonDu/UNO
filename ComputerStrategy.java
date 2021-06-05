@@ -3,7 +3,7 @@ public class ComputerStrategy {
 	private Hand hand;
 	
 	ComputerStrategy() {
-		
+		hand = new Hand();
 	}
 
 	public Hand getHand() {

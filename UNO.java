@@ -134,16 +134,37 @@ public class UNO implements ActionListener, MouseListener {
 		// card2image.setBounds(973, 650, dim2.width, dim2.height);
 		// optionScreen.add(card2image);
 
-		for (int i = 0; i < 15; i++) {
-			Card card = new Card(2, 2);
+//		for (int i = 0; i < 15; i++) {
+//			Card card = new Card(2, 2);
+//			ImageIcon image = card.getImage();
+//			image = scaleImage(image, 0.3, 0.3);
+//			JLabel imageLabel = new JLabel(image);
+//			Dimension dim = imageLabel.getPreferredSize();
+//			imageLabel.setBounds(971 - 52 * i, 650, dim.width, dim.height);
+//			imageLabel.addMouseListener(this);
+//			twoPlayerGameScreen.add(imageLabel);
+//		}
+
+		game = new Game(false);
+
+		for (int i = 0; i < 7; i++) {
+			Card card = game.getPlayerHand().nthCard(i);
+			System.out.println(card);
 			ImageIcon image = card.getImage();
 			image = scaleImage(image, 0.3, 0.3);
 			JLabel imageLabel = new JLabel(image);
 			Dimension dim = imageLabel.getPreferredSize();
-			imageLabel.setBounds(971 - 52 * i, 650, dim.width, dim.height);
-			imageLabel.addMouseListener(this);
+			imageLabel.setBounds(412 - 52 * i, 650, dim.width, dim.height);
 			twoPlayerGameScreen.add(imageLabel);
 		}
+		
+		ImageIcon startingCard = game.getStartingCard().getImage();
+		startingCard = scaleImage(startingCard, 0.3, 0.3);
+		JLabel imageLabel = new JLabel(startingCard);
+		Dimension dim = imageLabel.getPreferredSize();
+		imageLabel.setBounds(750, 400, dim.width, dim.height);
+		twoPlayerGameScreen.add(imageLabel);
+
 		frame.setContentPane(twoPlayerGameScreen);
 		frame.setVisible(true);
 		frame.pack();
@@ -205,7 +226,6 @@ public class UNO implements ActionListener, MouseListener {
 
 	public static void main(String[] args) {
 		UNO uno = new UNO();
-		System.out.println(uno.frame.getPreferredSize());
 		uno.setTwoPlayerGameScreen();
 	}
 
