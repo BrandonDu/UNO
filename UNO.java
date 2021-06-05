@@ -146,7 +146,7 @@ public class UNO implements ActionListener, MouseListener {
 //		}
 
 		game = new Game(false);
-
+//display player cards
 		for (int i = 0; i < 7; i++) {
 			Card card = game.getPlayerHand().nthCard(i);
 			System.out.println(card);
@@ -154,17 +154,30 @@ public class UNO implements ActionListener, MouseListener {
 			image = scaleImage(image, 0.3, 0.3);
 			JLabel imageLabel = new JLabel(image);
 			Dimension dim = imageLabel.getPreferredSize();
-			imageLabel.setBounds(412 - 52 * i, 650, dim.width, dim.height);
+			imageLabel.setBounds(412 - 52 * i, 670, dim.width, dim.height);
 			twoPlayerGameScreen.add(imageLabel);
 		}
+//display computer cards
+		for(int i=0; i<7; i++) {
+			Card card = game.getCp1().getHand().nthCard(i);
+			ImageIcon image = card.getImage();
+			image = scaleImage(image, 0.3, 0.3);
+			JLabel imageLabel = new JLabel(image);
+			Dimension dim = imageLabel.getPreferredSize();
+			imageLabel.setBounds(1073 - 52 * i, 107, dim.width, dim.height);
+			twoPlayerGameScreen.add(imageLabel);
+		}
+		
 		
 		ImageIcon startingCard = game.getStartingCard().getImage();
 		startingCard = scaleImage(startingCard, 0.3, 0.3);
 		JLabel imageLabel = new JLabel(startingCard);
+		System.out.println(imageLabel.getPreferredSize());
+
 		Dimension dim = imageLabel.getPreferredSize();
 		imageLabel.setBounds(750, 400, dim.width, dim.height);
 		twoPlayerGameScreen.add(imageLabel);
-
+		
 		frame.setContentPane(twoPlayerGameScreen);
 		frame.setVisible(true);
 		frame.pack();
@@ -227,6 +240,7 @@ public class UNO implements ActionListener, MouseListener {
 	public static void main(String[] args) {
 		UNO uno = new UNO();
 		uno.setTwoPlayerGameScreen();
+		System.out.println(uno.frame.getPreferredSize());
 	}
 
 }
