@@ -152,7 +152,7 @@ public class UNO implements ActionListener, MouseListener {
 		// display deck
 		int numCards = game.getDeck().numberOfCards();
 		for (int i = 0; i < numCards; i++) {
-			if (i % 4 == 0 || i == numCards - 1) {
+			if (i % 4 == 0) {
 				Card card = game.getDeck().nthCard(i);
 				ImageIcon cardImage = card.getImage();
 				cardImage = scaleImage(cardImage, 0.3, 0.3);
@@ -160,7 +160,7 @@ public class UNO implements ActionListener, MouseListener {
 				Dimension cardDim = cardLabel.getPreferredSize();
 				cardLabel.setBounds(500, 400 + i / 4, cardDim.width, cardDim.height);
 				twoPlayerGameScreen.add(cardLabel);
-				if (i == numCards - 1) {
+				if(i==0) {
 					deckCard = cardLabel;
 					cardLabel.addMouseListener(this);
 				}
@@ -210,15 +210,12 @@ public class UNO implements ActionListener, MouseListener {
 			twoPlayerGameScreen.remove(cardLabel);
 		}
 		playerCardLabels.clear();
-		System.out.println(playerHand.numberOfCards());
-		for (int i = playerHand.numberOfCards()-1; i>-1; i--) {
-			System.out.println("running");
+		for (int i = playerHand.numberOfCards() - 1; i >= 0; i--) {
 			Card card = playerHand.nthCard(i);
 			ImageIcon image = card.getImage();
 			image = scaleImage(image, 0.3, 0.3);
 			JLabel imageLabel = new JLabel(image);
 			Dimension dim = imageLabel.getPreferredSize();
-			int maxX = 200 + (playerHand.numberOfCards() - 1) * 52;
 			imageLabel.setBounds(200 + 52 * i, 700, dim.width, dim.height);
 			imageLabel.addMouseListener(this);
 			twoPlayerGameScreen.add(imageLabel);
@@ -237,12 +234,10 @@ public class UNO implements ActionListener, MouseListener {
 		case "THREE_PLAYER_BUTTON":
 			setThreePlayerGameScreen();
 		case "REORDER":
-			System.out.println(playerHand);
-			playerCardLabels.clear();
 			ArrayList<Card> cards = Hand.sortCards(playerHand.getCards());
 			playerHand.setCards(cards);
-			System.out.println(playerHand);
 			showPlayerCards();
+
 		}
 
 	}
@@ -256,29 +251,55 @@ public class UNO implements ActionListener, MouseListener {
 		if (e.getSource() == homeScreen) {
 			setOptionScreen();
 		} else if (e.getSource() == deckCard) {
-			System.out.println(playerHand);
+			ImageIcon movingCard = new Card(1,1).getImage();
+			//TODO change this to back of card
+			movingCard = scaleImage(movingCard, 0.3, 0.3);
+			JLabel movingCardLabel = new JLabel(movingCard);
+			Rectangle deckCardLoc = deckCard.getBounds();
+			movingCardLabel.setBounds(deckCardLoc);
+			twoPlayerGameScreen.add(movingCardLabel);
+
 			Timer timer = new Timer(1, new ActionListener() {
-				@Override
 				public void actionPerformed(ActionEvent e) {
-					Rectangle deckCardLoc = deckCard.getBounds();
+					Rectangle deckCardLoc = movingCardLabel.getBounds();
 					int destinationLocX = findRightmostPosition() + 52;
-					int destinationLocY = 700;
-					int xIncrement = (deckCardLoc.x - destinationLocX) / 20;
-					int yIncrement = (deckCardLoc.y - destinationLocY) / 20;
-					deckCardLoc.translate(-xIncrement, -yIncrement);
-					deckCard.setBounds(deckCardLoc);
-					twoPlayerGameScreen.repaint();
+					if (deckCardLoc.x != destinationLocX) {
+						if (deckCardLoc.x < destinationLocX) {
+							if (deckCardLoc.y != 700) {
+								deckCardLoc.translate(1, 1);
+								movingCardLabel.setBounds(deckCardLoc);
+								twoPlayerGameScreen.repaint();
+							} else {
+								deckCardLoc.translate(1, 0);
+								movingCardLabel.setBounds(deckCardLoc);
+								twoPlayerGameScreen.repaint();
+							}
+						} else {
+							if (deckCardLoc.y != 700) {
+								deckCardLoc.translate(-1, 1);
+								movingCardLabel.setBounds(deckCardLoc);
+								twoPlayerGameScreen.repaint();
+							} else {
+								deckCardLoc.translate(-1, 0);
+								movingCardLabel.setBounds(deckCardLoc);
+								twoPlayerGameScreen.repaint();
+							}
+						}
+					} else if (deckCardLoc.y != 700) {
+						deckCardLoc.translate(0, 1);
+						movingCardLabel.setBounds(deckCardLoc);
+						twoPlayerGameScreen.repaint();
+					} else {
+						game.dealCard(playerHand);
+						movingCardLabel.setVisible(false);
+						showPlayerCards();
+						((Timer) e.getSource()).stop();
+					}
 				}
+
 			});
 			timer.setInitialDelay(0);
 			timer.start();
-			game.dealCard(playerHand);
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e1) {
-				timer.stop();
-			}
-			showPlayerCards();
 		} else {
 			for (JLabel label : playerCardLabels) {
 				if (e.getSource() == label) {
