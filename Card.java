@@ -275,8 +275,5 @@ public class Card {
 		}
 		return color + " " + value;
 	}
-	public static void main(String[] args) {
-		Card card = new Card(Card.WILD, Card.WILD_CARD);
-		System.out.println(card.getImage());
-	}
+
 }

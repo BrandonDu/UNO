@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class UNO implements ActionListener, MouseListener {
@@ -15,9 +16,8 @@ public class UNO implements ActionListener, MouseListener {
 	private JPanel twoPlayerGameScreen;
 	private JButton twoPlayer;
 	private JButton threePlayer;
-
+	private ArrayList<JLabel> playerCardLabels; 
 	UNO() {
-
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -48,6 +48,8 @@ public class UNO implements ActionListener, MouseListener {
 
 		frame.pack();
 		frame.setVisible(true);
+
+		playerCardLabels = new ArrayList<JLabel>();
 	}
 
 	public ImageIcon scaleImage(ImageIcon image, double xFactor, double yFactor) {
@@ -128,18 +130,19 @@ public class UNO implements ActionListener, MouseListener {
 		twoPlayerGameScreen.setBackground(new Color(157, 41, 51));
 		twoPlayerGameScreen.setLayout(null);
 
-//display player cards
+		//display player cards
 		for (int i = 0; i < game.getPlayerHand().numberOfCards(); i++) {
 			Card card = game.getPlayerHand().nthCard(i);
 			ImageIcon image = card.getImage();
 			image = scaleImage(image, 0.3, 0.3);
 			JLabel imageLabel = new JLabel(image);
 			Dimension dim = imageLabel.getPreferredSize();
-			imageLabel.setBounds(412 - 52 * i, 700, dim.width, dim.height);
+			imageLabel.setBounds(512 - 52 * i, 700, dim.width, dim.height);
 			twoPlayerGameScreen.add(imageLabel);
+			playerCardLabels.add(imageLabel);
 		}
-		
-//display computer cards
+
+		//display computer cards
 		for (int i = 0; i < game.getCp1().getHand().numberOfCards(); i++) {
 			Card card = game.getCp1().getHand().nthCard(i);
 			ImageIcon image = card.getImage();
@@ -149,33 +152,52 @@ public class UNO implements ActionListener, MouseListener {
 			imageLabel.setBounds(1073 - 52 * i, 77, dim.width, dim.height);
 			twoPlayerGameScreen.add(imageLabel);
 		}
-		
-//display deck
+
+		//display deck
+		for(int i=0; i<Game.getDeck().numberOfCards(); i++) {
+			if(i%4==0) {
+				Card card = Game.getDeck().nthCard(i);
+				ImageIcon cardImage = card.getImage();
+				cardImage = scaleImage(cardImage, 0.3, 0.3);
+				JLabel cardLabel = new JLabel(cardImage);
+				Dimension cardDim = cardLabel.getPreferredSize();
+				cardLabel.setBounds(500, 400 +  i/4, cardDim.width, cardDim.height);
+				twoPlayerGameScreen.add(cardLabel); 
+			}
+		}
 		Card card = new Card(1, 1);
 		ImageIcon cardImage = card.getImage();
 		cardImage = scaleImage(cardImage, 0.3, 0.3);
 		JLabel cardLabel = new JLabel(cardImage);
 		Dimension cardDim = cardLabel.getPreferredSize();
 		cardLabel.setBounds(500, 400, cardDim.width, cardDim.height);
-		ImageIcon startingCard = game.getStartingCard().getImage();
-		startingCard = scaleImage(startingCard, 0.3, 0.3);
 		twoPlayerGameScreen.add(cardLabel);
 
-//display startingCard
+		//display startingCard
+		ImageIcon startingCard = game.getStartingCard().getImage();
+		startingCard = scaleImage(startingCard, 0.3, 0.3);
 		JLabel imageLabel = new JLabel(startingCard);
 		Dimension dim = imageLabel.getPreferredSize();
 		imageLabel.setBounds(750, 400, dim.width, dim.height);
 		twoPlayerGameScreen.add(imageLabel);
 
+		//reorder button
+		JButton reorder = new JButton("Reorder Cards");
+		Dimension REORDERDim = reorder.getPreferredSize();
+		reorder.setBounds(50, 650, REORDERDim.width, REORDERDim.height);
+		twoPlayerGameScreen.add(reorder);
+		reorder.addActionListener(this);
+		reorder.setActionCommand("REORDER");
+
 		frame.setContentPane(twoPlayerGameScreen);
 		frame.setVisible(true);
 		frame.pack();
 	}
-	
+
 	public void updateTwoPlayerGameScreen() {
 		twoPlayerGameScreen.repaint();
 	}
-	
+
 	public void setThreePlayerGameScreen() {
 		optionScreen = new JPanel();
 		optionScreen.setBackground(new Color(157, 41, 51));
@@ -187,7 +209,6 @@ public class UNO implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e.getSource());
 		if (e.getSource() == homeScreen) {
 			setOptionScreen();
 		}
@@ -226,6 +247,23 @@ public class UNO implements ActionListener, MouseListener {
 			break;
 		case "THREE_PLAYER_BUTTON":
 			setThreePlayerGameScreen();
+		case "REORDER":
+			for(JLabel cardLabel : playerCardLabels) {
+				twoPlayerGameScreen.remove(cardLabel);
+			}
+			ArrayList<Card> cards = Hand.sortCards(game.getPlayerHand().getCards());
+			game.getPlayerHand().setCards(cards);
+			for (int i = 0; i < game.getPlayerHand().numberOfCards(); i++) {
+				Card card = game.getPlayerHand().nthCard(i);
+				ImageIcon image = card.getImage();
+				image = scaleImage(image, 0.3, 0.3);
+				JLabel imageLabel = new JLabel(image);
+				Dimension dim = imageLabel.getPreferredSize();
+				int maxX = 200+(game.getPlayerHand().numberOfCards()-1)*52;
+				imageLabel.setBounds(maxX - 52 * i, 700, dim.width, dim.height);
+				twoPlayerGameScreen.add(imageLabel);
+			}
+			twoPlayerGameScreen.repaint();
 		}
 
 	}
@@ -233,7 +271,7 @@ public class UNO implements ActionListener, MouseListener {
 	public static void main(String[] args) {
 		UNO uno = new UNO();
 		uno.setTwoPlayerGameScreen();
-		System.out.println(uno.frame.getPreferredSize());
+
 	}
 
 }
