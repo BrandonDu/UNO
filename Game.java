@@ -1,14 +1,14 @@
 
 public class Game {
 	private Hand playerHand;
-	private static Hand deck;
+	private Hand deck;
 	private ComputerStrategy cp1;
 	private ComputerStrategy cp2;
 	private Card startingCard;
 	private int turn;
 
 	Game(boolean multiplayer) {
-		setDeck(Game.makeDeck());
+		setDeck(this.makeDeck());
 
 		setPlayerHand(new Hand());
 		setCp1(new ComputerStrategy());
@@ -34,9 +34,9 @@ public class Game {
 		setStartingCard();
 	}
 
-	public static Hand makeDeck() {
-		setDeck(new Hand());
-		getDeck().addCard(new Card(1, 0));
+	public Hand makeDeck() {
+		deck = new Hand();
+		deck.addCard(new Card(1, 0));
 		for (int i = 1; i < 13; i++) {
 			for (int j = 0; j < 2; j++) {
 				getDeck().addCard(new Card(1, i));
@@ -68,15 +68,15 @@ public class Game {
 	}
 
 	public void dealCard(Hand hand) {
-		int randIndex = (int) (getDeck().numberOfCards() * Math.random());
-		hand.addCard(getDeck().nthCard(randIndex));
-		getDeck().removeCard(getDeck().nthCard(randIndex));
+		int randIndex = (int) (deck.numberOfCards() * Math.random());
+		hand.addCard(deck.nthCard(randIndex));
+		getDeck().removeCard(deck.nthCard(randIndex));
 	}
 
 	public Card deal() {
-		int randIndex = (int) (getDeck().numberOfCards() * Math.random());
-		getDeck().removeCard(getDeck().nthCard(randIndex));
-		return getDeck().nthCard(randIndex);
+		int randIndex = (int) (deck.numberOfCards() * Math.random());
+		deck.removeCard(deck.nthCard(randIndex));
+		return deck.nthCard(randIndex);
 	}
 
 	public int getTurn() {
@@ -110,22 +110,22 @@ public class Game {
 	}
 
 	public void setStartingCard() {
-		int randIndex = (int) (getDeck().numberOfCards() * Math.random());
-		Card card = getDeck().nthCard(randIndex);
+		int randIndex = (int) (deck.numberOfCards() * Math.random());
+		Card card = deck.nthCard(randIndex);
 		while(card.getValue()>9 || card.getColor()==Card.WILD) {
-			randIndex = (int) (getDeck().numberOfCards() * Math.random());
-			card = getDeck().nthCard(randIndex);
+			randIndex = (int) (deck.numberOfCards() * Math.random());
+			card = deck.nthCard(randIndex);
 		}
 		this.startingCard = card;
-		getDeck().removeCard(card);
+		deck.removeCard(card);
 	}
 
-	public static Hand getDeck() {
+	public Hand getDeck() {
 		return deck;
 	}
 
-	public static void setDeck(Hand deck) {
-		Game.deck = deck;
+	public void setDeck(Hand deck) {
+		this.deck = deck;
 	}
 
 }

@@ -92,11 +92,7 @@ public class Hand {
 		}
 	}
 
-	/*
-	 * The main function that implements QuickSort arr[] --> Array to be sorted, low
-	 * --> Starting index, high --> Ending index
-	 */
-	static void quickSort(ArrayList<Card> arr, int low, int high, boolean color) {
+	private static void quickSort(ArrayList<Card> arr, int low, int high, boolean color) {
 		if (low < high) {
 			int pi = partition(arr, low, high, color);
 			quickSort(arr, low, pi - 1, color);
@@ -104,13 +100,13 @@ public class Hand {
 		}
 	}
 
-	static void printArray(ArrayList<Card> arr) {
+	private static void printArray(ArrayList<Card> arr) {
 		for (int i = 0; i < arr.size(); i++)
 			System.out.println(arr.get(i));
 		System.out.println();
 	}
 
-	static int[] findNumberOfEachColor(ArrayList<Card> arr) {
+	private static int[] findNumberOfEachColor(ArrayList<Card> arr) {
 		int[] ans = new int[5];
 		for (Card card : arr) {
 			if (card.getColor() == Card.RED)
@@ -141,7 +137,13 @@ public class Hand {
 		}
 		start += nums[i];
 		quickSort(arr, start, arr.size() - 1, false);
-		Collections.reverse(arr);
 		return arr;
+	}
+	public String toString() {
+		String result = "";
+		for(Card card : cards) {
+			result += cards.toString() + "\n";
+		}
+		return result;
 	}
 }
