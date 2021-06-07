@@ -5,6 +5,7 @@ public class Game {
 	private ComputerStrategy cp1;
 	private ComputerStrategy cp2;
 	private Card startingCard;
+	private Card topCard;
 	private int turn;
 
 	Game(boolean multiplayer) {
@@ -20,6 +21,7 @@ public class Game {
 		for (int i = 0; i < 7; i++) {
 			dealCard(playerHand);
 		}
+		playerHand.addCard(new Card(5,14));
 
 		for (int i = 0; i < 7; i++) {
 			dealCard(getCp1().getHand());
@@ -32,6 +34,7 @@ public class Game {
 		turn = 0;
 
 		setStartingCard();
+		topCard = startingCard;
 	}
 
 	public Hand makeDeck() {
@@ -65,6 +68,30 @@ public class Game {
 			getDeck().addCard(new Card(5, 14));
 		}
 		return getDeck();
+	}
+
+	public ComputerStrategy getCp2() {
+		return cp2;
+	}
+
+	public void setCp2(ComputerStrategy cp2) {
+		this.cp2 = cp2;
+	}
+
+	public Card getTopCard() {
+		return topCard;
+	}
+
+	public void setTopCard(Card topCard) {
+		this.topCard = topCard;
+	}
+
+	public void setStartingCard(Card startingCard) {
+		this.startingCard = startingCard;
+	}
+
+	public void setTurn(int turn) {
+		this.turn = turn;
 	}
 
 	public void dealCard(Hand hand) {
@@ -127,9 +154,19 @@ public class Game {
 	public void setDeck(Hand deck) {
 		this.deck = deck;
 	}
-	
-	public void playCard(Hand hand, Card card) {
-		hand.removeCard(card);
+
+	public boolean playCard(Hand hand, Card card) {
+		if(card.getColor()==Card.WILD) {
+			hand.removeCard(card);
+			this.setTopCard(card);
+			return true;
+		}
+		else if(card.getColor()==topCard.getColor() || card.getValue()==topCard.getValue()) {
+			hand.removeCard(card);
+			this.setTopCard(card);
+			return true;
+		}
+		return false;
 	}
 
 }
