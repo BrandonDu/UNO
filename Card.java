@@ -13,6 +13,7 @@ public class Card {
 	public static final int PLUS_TWO = 12;
 	public static final int PLUS_FOUR = 13;
 	public static final int WILD_CARD = 14;
+	public static final int BACK = 15;
 
 	private int color;
 	private int value;
@@ -52,6 +53,8 @@ public class Card {
 			} else if (value.toLowerCase().equals("wild card")) {
 				this.value = WILD_CARD;
 			}
+			else if(value.toLowerCase().equals("back"))
+				this.value = BACK;
 			this.setColor();
 		}
 	}
@@ -231,6 +234,9 @@ public class Card {
 		} else if (getValue()==14) {
 			cardImage = new ImageIcon("Pictures/W.png");
 		}
+		else if (getValue()==15) {
+			cardImage = new ImageIcon("Pictures/BC.png");
+		}
 	}
 
 	public int getColor() {
@@ -270,10 +276,16 @@ public class Card {
 				value = "Plus Two";
 			} else if (this.value == PLUS_FOUR) {
 				value = "Plus Four";
-			} else
+			} else if (this.value == WILD_CARD)
 				value = "Wild Card";
+			else {
+				value = "Back";
+			}
 		}
-		return color + " " + value;
+		if(this.color != Card.WILD && this.value!=Card.BACK) 
+			return color + " " + value;
+		else 
+			return value;
 	}
 
 }

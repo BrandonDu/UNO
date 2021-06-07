@@ -18,7 +18,7 @@ public class Game {
 		}
 
 		for (int i = 0; i < 7; i++) {
-			dealCard(getPlayerHand());
+			dealCard(playerHand);
 		}
 
 		for (int i = 0; i < 7; i++) {
@@ -126,6 +126,10 @@ public class Game {
 
 	public void setDeck(Hand deck) {
 		this.deck = deck;
+	}
+	
+	public void playCard(Hand hand, Card card) {
+		hand.removeCard(card);
 	}
 
 }
