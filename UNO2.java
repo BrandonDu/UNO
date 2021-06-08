@@ -712,8 +712,9 @@ public class UNO2 implements ActionListener, MouseListener {
 	}
 
 	public static void main(String[] args) {
-		UNO uno = new UNO();
+		UNO2 uno = new UNO2();
 		uno.setTwoPlayerGameScreen();
 	}
 
 }
+
