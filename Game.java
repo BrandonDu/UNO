@@ -7,8 +7,11 @@ public class Game {
 	private Card startingCard;
 	private Card topCard;
 	private int turn;
+	private int totalPlus;
+	private boolean multiplayer;
 
 	Game(boolean multiplayer) {
+		this.multiplayer = multiplayer;
 		setDeck(this.makeDeck());
 
 		setPlayerHand(new Hand());
@@ -21,7 +24,8 @@ public class Game {
 		for (int i = 0; i < 7; i++) {
 			dealCard(playerHand);
 		}
-		playerHand.addCard(new Card(5,14));
+		playerHand.addCard(new Card(5, 14));
+		playerHand.addCard(new Card(5, 14));
 
 		for (int i = 0; i < 7; i++) {
 			dealCard(getCp1().getHand());
@@ -32,9 +36,25 @@ public class Game {
 		}
 
 		turn = 0;
-
+		totalPlus = 0;
 		setStartingCard();
 		topCard = startingCard;
+	}
+
+	public int getTotalPlus() {
+		return totalPlus;
+	}
+
+	public void setTotalPlus(int totalPlus) {
+		this.totalPlus = totalPlus;
+	}
+
+	public boolean isMultiplayer() {
+		return multiplayer;
+	}
+
+	public void setMultiplayer(boolean multiplayer) {
+		this.multiplayer = multiplayer;
 	}
 
 	public Hand makeDeck() {
@@ -139,7 +159,7 @@ public class Game {
 	public void setStartingCard() {
 		int randIndex = (int) (deck.numberOfCards() * Math.random());
 		Card card = deck.nthCard(randIndex);
-		while(card.getValue()>9 || card.getColor()==Card.WILD) {
+		while (card.getValue() > 9 || card.getColor() == Card.WILD) {
 			randIndex = (int) (deck.numberOfCards() * Math.random());
 			card = deck.nthCard(randIndex);
 		}
@@ -156,17 +176,47 @@ public class Game {
 	}
 
 	public boolean playCard(Hand hand, Card card) {
-		if(card.getColor()==Card.WILD) {
-			hand.removeCard(card);
-			this.setTopCard(card);
-			return true;
+		if (!multiplayer) {
+			if (turn == 0 && hand == playerHand || turn == 1 && hand == cp1.getHand()) {
+				if (card.getColor() == Card.WILD) {
+					hand.removeCard(card);
+					this.setTopCard(card);
+					turn = (turn + 1) % 2;
+					return true;
+				} else if (card.getColor() == topCard.getColor() || card.getValue() == topCard.getValue()) {
+					if (card.getValue() == Card.PLUS_TWO)
+						totalPlus += 2;
+					if (card.getValue() == Card.PLUS_FOUR)
+						totalPlus += 4;
+					hand.removeCard(card);
+					this.setTopCard(card);
+					turn = (turn + 1) % 2;
+					return true;
+				}
+			}
+			return false;
+		} else {
+			if (turn == 0 && hand == playerHand || turn == 1 && hand == cp1.getHand()
+					|| turn == 2 && hand == cp2.getHand()) {
+				if (card.getColor() == Card.WILD) {
+					hand.removeCard(card);
+					this.setTopCard(card);
+					turn = (turn + 1) % 3;
+					return true;
+				} else if (card.getColor() == topCard.getColor() || card.getValue() == topCard.getValue()) {
+					if (card.getValue() == Card.PLUS_TWO)
+						totalPlus += 2;
+					if (card.getValue() == Card.PLUS_FOUR)
+						totalPlus += 4;
+					hand.removeCard(card);
+					this.setTopCard(card);
+					turn = (turn + 1) % 3;
+					return true;
+				}
+			}
+			return false;
+
 		}
-		else if(card.getColor()==topCard.getColor() || card.getValue()==topCard.getValue()) {
-			hand.removeCard(card);
-			this.setTopCard(card);
-			return true;
-		}
-		return false;
 	}
 
 }

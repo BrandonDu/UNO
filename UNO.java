@@ -24,7 +24,6 @@ public class UNO implements ActionListener, MouseListener {
 	private JLabel deckCard;
 	private JLabel topCard;
 	private JLabel currentColor;
-	private JLabel currentValue;
 
 	private JButton twoPlayer;
 	private JButton threePlayer;
@@ -311,10 +310,6 @@ public class UNO implements ActionListener, MouseListener {
 			return 1;
 	}
 
-	private void updateScreen() {
-
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String event = e.getActionCommand();
@@ -370,9 +365,9 @@ public class UNO implements ActionListener, MouseListener {
 												if (destinationLocX != cardLoc.x || destinationLocY != cardLoc.y) {
 													cardLoc.translate(
 															(destinationLocX - cardLoc.x)
-																	/ (abs(destinationLocX - cardLoc.x)),
+															/ (abs(destinationLocX - cardLoc.x)),
 															(destinationLocY - cardLoc.y)
-																	/ (abs(destinationLocY - cardLoc.y)));
+															/ (abs(destinationLocY - cardLoc.y)));
 													movingLabel.setBounds(cardLoc);
 													twoPlayerGameScreen.repaint();
 												} else {
@@ -388,8 +383,6 @@ public class UNO implements ActionListener, MouseListener {
 										timer.setInitialDelay(0);
 										timer.start();
 									}
-								} else {
-									
 								}
 							}
 						}
@@ -474,143 +467,171 @@ public class UNO implements ActionListener, MouseListener {
 				timer.setInitialDelay(0);
 				timer.start();
 			} else {
-				for (JLabel label : playerCardLabels) {
-					if (e.getSource() == label) {
-						if (clickedLabel == label) {
-							int index = playerCardLabels.indexOf(label);
-							Card card = playerHand.nthCard(index);
-							if (game.playCard(playerHand, card)) {
-								if (card.getColor() == Card.WILD) {
-									JFrame selectCard = new JFrame();
+				if(game.getTurn()==0) {
+					for (JLabel label : playerCardLabels) {
+						if (e.getSource() == label) {
+							if (clickedLabel == label) {
+								int index = playerCardLabels.indexOf(label);
+								Card card = playerHand.nthCard(index);
+								if (game.playCard(playerHand, card)) {
+									if (card.getColor() == Card.WILD) {
+										JFrame selectCard = new JFrame();
 
-									JPanel pane = new JPanel();
-									pane.setLayout(new BorderLayout(0, 10));
+										JPanel pane = new JPanel();
+										pane.setLayout(new BorderLayout(0, 10));
 
-									JPanel titlePanel = new JPanel();
-									JLabel title = new JLabel("Choose a Color");
-									title.setFont(new Font("Tacoma", Font.BOLD, 30));
-									titlePanel.add(title);
-									titlePanel.setPreferredSize(title.getPreferredSize());
-									titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
-									pane.add(titlePanel, BorderLayout.NORTH);
+										JPanel titlePanel = new JPanel();
+										JLabel title = new JLabel("Choose a Color");
+										title.setFont(new Font("Tacoma", Font.BOLD, 30));
+										titlePanel.add(title);
+										titlePanel.setPreferredSize(title.getPreferredSize());
+										titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
+										pane.add(titlePanel, BorderLayout.NORTH);
 
-									GridLayout layout = new GridLayout(2, 2);
-									layout.setHgap(5);
-									layout.setVgap(5);
-									ArrayList<JLabel> cardImages = new ArrayList<JLabel>();
+										GridLayout layout = new GridLayout(2, 2);
+										layout.setHgap(5);
+										layout.setVgap(5);
+										ArrayList<JLabel> cardImages = new ArrayList<JLabel>();
 
-									MouseListener ml = new MouseListener() {
+										MouseListener ml = new MouseListener() {
 
-										@Override
-										public void mouseClicked(MouseEvent e) {
-											for (JLabel label : cardImages) {
-												if (label == e.getSource()) {
-													int index = cardImages.indexOf(label);
-													game.setTopCard(new Card(index + 1, Card.WILD_CARD));
-													selectCard.dispose();
-													break;
+											@Override
+											public void mouseClicked(MouseEvent e) {
+												for (JLabel label : cardImages) {
+													if (label == e.getSource()) {
+														int index = cardImages.indexOf(label);
+														game.setTopCard(new Card(index + 1, Card.WILD_CARD));
+														selectCard.dispose();
+
+														String color;
+														Color COLOR;
+														if (index == 0) {
+															color = "Red";
+															COLOR = Color.RED;
+														} else if (index == 1) {
+															color = "Yellow";
+															COLOR = Color.YELLOW;
+														} else if (index == 2) {
+															color = "Green";
+															COLOR = Color.GREEN;
+														} else {
+															color = "Blue";
+															COLOR = new Color(66, 135, 245);
+														}
+														if (currentColor != null) {
+															twoPlayerGameScreen.remove(currentColor);
+														}
+														currentColor = new JLabel("Current Color: " + color);
+														currentColor.setForeground(COLOR);
+														currentColor.setFont(new Font("Tacoma", Font.PLAIN, 20));
+														Dimension dim = currentColor.getPreferredSize();
+														currentColor.setBounds(720, 362, dim.width, dim.height);
+														twoPlayerGameScreen.add(currentColor);
+														twoPlayerGameScreen.repaint();
+														break;
+
+													}
 												}
 											}
-										}
 
-										@Override
-										public void mousePressed(MouseEvent e) {
-										}
+											@Override
+											public void mousePressed(MouseEvent e) {
+											}
 
-										@Override
-										public void mouseReleased(MouseEvent e) {
-										}
+											@Override
+											public void mouseReleased(MouseEvent e) {
+											}
 
-										@Override
-										public void mouseEntered(MouseEvent e) {
-										}
+											@Override
+											public void mouseEntered(MouseEvent e) {
+											}
 
-										@Override
-										public void mouseExited(MouseEvent e) {
-										}
+											@Override
+											public void mouseExited(MouseEvent e) {
+											}
 
-									};
+										};
 
-									JPanel cardPanel = new JPanel(layout);
+										JPanel cardPanel = new JPanel(layout);
 
-									ImageIcon redCardImage = new Card(1, 0).getImage();
-									redCardImage = scaleImage(redCardImage, 0.3, 0.3);
-									JLabel redCard = new JLabel(redCardImage);
-									cardPanel.add(redCard);
-									cardImages.add(redCard);
-									redCard.addMouseListener(ml);
+										ImageIcon redCardImage = new Card(1, 0).getImage();
+										redCardImage = scaleImage(redCardImage, 0.3, 0.3);
+										JLabel redCard = new JLabel(redCardImage);
+										cardPanel.add(redCard);
+										cardImages.add(redCard);
+										redCard.addMouseListener(ml);
 
-									ImageIcon yellowCardImage = new Card(2, 0).getImage();
-									yellowCardImage = scaleImage(yellowCardImage, 0.3, 0.3);
-									JLabel yellowCard = new JLabel(yellowCardImage);
-									cardPanel.add(yellowCard);
-									cardImages.add(yellowCard);
-									yellowCard.addMouseListener(ml);
+										ImageIcon yellowCardImage = new Card(2, 0).getImage();
+										yellowCardImage = scaleImage(yellowCardImage, 0.3, 0.3);
+										JLabel yellowCard = new JLabel(yellowCardImage);
+										cardPanel.add(yellowCard);
+										cardImages.add(yellowCard);
+										yellowCard.addMouseListener(ml);
 
-									ImageIcon greenCardImage = new Card(3, 0).getImage();
-									greenCardImage = scaleImage(greenCardImage, 0.3, 0.3);
-									JLabel greenCard = new JLabel(greenCardImage);
-									cardPanel.add(greenCard);
-									cardImages.add(greenCard);
-									greenCard.addMouseListener(ml);
+										ImageIcon greenCardImage = new Card(3, 0).getImage();
+										greenCardImage = scaleImage(greenCardImage, 0.3, 0.3);
+										JLabel greenCard = new JLabel(greenCardImage);
+										cardPanel.add(greenCard);
+										cardImages.add(greenCard);
+										greenCard.addMouseListener(ml);
 
-									ImageIcon blueCardImage = new Card(4, 0).getImage();
-									blueCardImage = scaleImage(blueCardImage, 0.3, 0.3);
-									JLabel blueCard = new JLabel(blueCardImage);
-									cardPanel.add(blueCard);
-									cardImages.add(blueCard);
-									blueCard.addMouseListener(ml);
-									//
-									pane.add(cardPanel, BorderLayout.CENTER);
-									selectCard.setContentPane(pane);
-									selectCard.pack();
-									selectCard.setLocationRelativeTo(null);
+										ImageIcon blueCardImage = new Card(4, 0).getImage();
+										blueCardImage = scaleImage(blueCardImage, 0.3, 0.3);
+										JLabel blueCard = new JLabel(blueCardImage);
+										cardPanel.add(blueCard);
+										cardImages.add(blueCard);
+										blueCard.addMouseListener(ml);
 
-									selectCard.setVisible(true);
+										pane.add(cardPanel, BorderLayout.CENTER);
+										selectCard.setContentPane(pane);
+										selectCard.pack();
+										selectCard.setLocationRelativeTo(null);
 
-								}
-								Timer timer = new Timer(1, new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										Rectangle deckCardLoc = label.getBounds();
-										if (deckCardLoc.x != 750 || deckCardLoc.y != 400) {
-											deckCardLoc.translate((750 - deckCardLoc.x) / abs(750 - deckCardLoc.x),
-													(400 - deckCardLoc.y) / abs(400 - deckCardLoc.y));
-											label.setBounds(deckCardLoc);
-											twoPlayerGameScreen.repaint();
-										} else {
-											((Timer) e.getSource()).stop();
-											topCard.setVisible(false);
-											topCard = label;
-											playerCardLabels.remove(label);
-											topCard.setVisible(true);
-											showPlayerCards();
-											clickedLabel = null;
-										}
+										selectCard.setVisible(true);
 
 									}
-								});
-								timer.setInitialDelay(0);
-								timer.start();
+									Timer timer = new Timer(1, new ActionListener() {
+										public void actionPerformed(ActionEvent e) {
+											Rectangle deckCardLoc = label.getBounds();
+											if (deckCardLoc.x != 750 || deckCardLoc.y != 400) {
+												deckCardLoc.translate((750 - deckCardLoc.x) / abs(750 - deckCardLoc.x),
+														(400 - deckCardLoc.y) / abs(400 - deckCardLoc.y));
+												label.setBounds(deckCardLoc);
+												twoPlayerGameScreen.repaint();
+											} else {
+												((Timer) e.getSource()).stop();
+												topCard.setVisible(false);
+												topCard = label;
+												playerCardLabels.remove(label);
+												topCard.setVisible(true);
+												showPlayerCards();
+												clickedLabel = null;
+											}
+										}
+									});
+									timer.setInitialDelay(0);
+									timer.start();
+								}
+							} else {
+								Rectangle loc = label.getBounds();
+								loc.translate(0, -20);
+								label.setBounds(loc);
+
+								if (clickedLabel != null) {
+									Rectangle ogLoc = clickedLabel.getBounds();
+									ogLoc.translate(0, 20);
+									clickedLabel.setBounds(ogLoc);
+								}
+
+								clickedLabel = label;
+
+								twoPlayerGameScreen.repaint();
 							}
-						} else {
-							Rectangle loc = label.getBounds();
-							loc.translate(0, -20);
-							label.setBounds(loc);
-
-							if (clickedLabel != null) {
-								Rectangle ogLoc = clickedLabel.getBounds();
-								ogLoc.translate(0, 20);
-								clickedLabel.setBounds(ogLoc);
-							}
-
-							clickedLabel = label;
-
-							twoPlayerGameScreen.repaint();
+							break;
 						}
-						break;
 					}
-				}
 
+				}
 			}
 		}
 	}
@@ -633,6 +654,7 @@ public class UNO implements ActionListener, MouseListener {
 
 	public static void main(String[] args) {
 		UNO uno = new UNO();
+		uno.setTwoPlayerGameScreen();
 	}
 
 }
