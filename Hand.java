@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Hand {
 
@@ -49,21 +48,11 @@ public class Hand {
 
 	public static int partition(ArrayList<Card> arr, int low, int high, boolean color) {
 		if (color) {
-			// pivot
 			int pivot = arr.get(high).getColor();
-
-			// Index of smaller element and
-			// indicates the right position
-			// of pivot found so far
-			int i = (low - 1);
+			int i = low - 1;
 
 			for (int j = low; j <= high - 1; j++) {
-				// If current element is smaller
-				// than the pivot
 				if (arr.get(j).getColor() < pivot) {
-					// Increment index of
-					// smaller element
-					i++;
 					swap(arr, i, j);
 				}
 			}
@@ -71,18 +60,10 @@ public class Hand {
 			return (i + 1);
 		} else {
 			int pivot = arr.get(high).getValue();
-
-			// Index of smaller element and
-			// indicates the right position
-			// of pivot found so far
-			int i = (low - 1);
+			int i = low - 1;
 
 			for (int j = low; j <= high - 1; j++) {
-				// If current element is smaller
-				// than the pivot
 				if (arr.get(j).getValue() < pivot) {
-					// Increment index of
-					// smaller element
 					i++;
 					swap(arr, i, j);
 				}
@@ -100,11 +81,6 @@ public class Hand {
 		}
 	}
 
-	private static void printArray(ArrayList<Card> arr) {
-		for (int i = 0; i < arr.size(); i++)
-			System.out.println(arr.get(i));
-		System.out.println();
-	}
 
 	public static int[] findNumberOfEachColor(ArrayList<Card> arr) {
 		int[] ans = new int[5];
@@ -143,7 +119,7 @@ public class Hand {
 	public String toString() {
 		String result = "";
 		for (Card card : cards) {
-			result += cards.toString() + "\n";
+			result += card + "\n";
 		}
 		return result;
 	}
