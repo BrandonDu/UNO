@@ -106,7 +106,7 @@ public class Hand {
 		System.out.println();
 	}
 
-	private static int[] findNumberOfEachColor(ArrayList<Card> arr) {
+	public static int[] findNumberOfEachColor(ArrayList<Card> arr) {
 		int[] ans = new int[5];
 		for (Card card : arr) {
 			if (card.getColor() == Card.RED)
