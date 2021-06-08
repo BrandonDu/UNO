@@ -139,9 +139,10 @@ public class Hand {
 		quickSort(arr, start, arr.size() - 1, false);
 		return arr;
 	}
+
 	public String toString() {
 		String result = "";
-		for(Card card : cards) {
+		for (Card card : cards) {
 			result += cards.toString() + "\n";
 		}
 		return result;
