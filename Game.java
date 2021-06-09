@@ -28,10 +28,12 @@ public class Game {
 		for (int i = 0; i < 7; i++) {
 			dealCard(getCp1().getHand());
 		}
-		getCp1().getHand().addCard(new Card(Card.WILD,Card.WILD_CARD));
 
 		if (multiplayer) {
-			dealCard(cp2.getHand());
+			for (int i = 0; i < 7; i++) {
+
+				dealCard(cp2.getHand());
+			}
 		}
 
 		turn = 0;
