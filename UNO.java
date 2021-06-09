@@ -769,7 +769,7 @@ public class UNO implements ActionListener, MouseListener {
 			timer.start();
 		}
 	}
-
+//
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (e.getSource() == homeScreen) {
