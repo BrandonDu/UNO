@@ -705,6 +705,7 @@ public class UNO implements ActionListener, MouseListener {
 	}
 
 	private void playComputerCard(ComputerStrategy cp) {
+		System.out.println(cp.getHand().numberOfCards());
 		Card card = cp.chooseCard(game.getTopCard());
 		System.out.println(card);
 		if (card != null) {
