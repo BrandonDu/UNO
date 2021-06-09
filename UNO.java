@@ -25,6 +25,7 @@ public class UNO implements ActionListener, MouseListener {
 	private ArrayList<JLabel> showAllCardLabels;
 
 	private JFrame frame;
+	private JFrame winner;
 
 	private JPanel homeScreen;
 	private JPanel optionScreen;
@@ -586,6 +587,10 @@ public class UNO implements ActionListener, MouseListener {
 	public void actionPerformed(ActionEvent e) {
 		String event = e.getActionCommand();
 		switch (event) {
+		case "PLAY_AGAIN":
+			winner.dispose();
+			setOptionScreen();
+			break;
 		case "TWO_PLAYER_BUTTON":
 			setTwoPlayerGameScreen();
 			break;
@@ -641,9 +646,9 @@ public class UNO implements ActionListener, MouseListener {
 												if (destinationLocX != cardLoc.x || destinationLocY != cardLoc.y) {
 													cardLoc.translate(
 															(destinationLocX - cardLoc.x)
-																	/ (abs(destinationLocX - cardLoc.x)),
+															/ (abs(destinationLocX - cardLoc.x)),
 															(destinationLocY - cardLoc.y)
-																	/ (abs(destinationLocY - cardLoc.y)));
+															/ (abs(destinationLocY - cardLoc.y)));
 													movingLabel.setBounds(cardLoc);
 													twoPlayerGameScreen.repaint();
 												} else {
@@ -852,6 +857,118 @@ public class UNO implements ActionListener, MouseListener {
 		} else if (turn == 2) {
 			playComputerCard(game.getCp2());
 		}
+		if (playerHand.numberOfCards()==0) {
+			winner = new JFrame();
+			winner.setSize(600,250);
+			JPanel pane = new JPanel();
+			pane.setLayout(new BorderLayout(0, 10));
+
+			JPanel titlePanel = new JPanel();
+			JLabel title = new JLabel("Congrats! You won UNO!");
+			title.setFont(new Font("Tacoma", Font.PLAIN, 20));
+			titlePanel.add(title);
+	//		titlePanel.setPreferredSize(title.getPreferredSize());
+			
+
+			GridLayout layout = new GridLayout(2, 2);
+			layout.setHgap(5);
+			layout.setVgap(5);
+			
+			titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
+			pane.add(titlePanel, BorderLayout.NORTH);
+			//			ArrayList<JLabel> cardImages = new ArrayList<JLabel>();
+			JPanel buttonPanel = new JPanel();
+			JButton playAgain = new JButton();
+			playAgain.setText("Play Again");
+			playAgain.setSize(200, 50);
+			buttonPanel.add(playAgain);
+			playAgain.addActionListener(this);
+			playAgain.setActionCommand("PLAY_AGAIN");
+			
+			pane.add(buttonPanel);
+			
+			winner.setContentPane(pane);
+			winner.pack();
+			winner.setLocationRelativeTo(null);
+
+			winner.setVisible(true);
+			game.setTurn(3);
+		} else if (cp1Hand.numberOfCards()==0) {
+			winner = new JFrame();
+			winner.setSize(600,250);
+			
+			
+			JPanel pane = new JPanel();
+			pane.setLayout(new BorderLayout(0, 10));
+
+			JPanel titlePanel = new JPanel();
+			JLabel title = new JLabel("");
+			if (game.isMultiplayer()) {
+				title = new JLabel("Sorry, you lost to Computer Player 1.");
+			} else {
+				title = new JLabel("Sorry, you lost to the Computer Player.");
+			}
+			title.setFont(new Font("Tacoma", Font.PLAIN, 20));
+			titlePanel.add(title);
+			GridLayout layout = new GridLayout(2, 2);
+			layout.setHgap(5);
+			layout.setVgap(5);
+
+			titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0));
+			pane.add(titlePanel, BorderLayout.NORTH);
+
+			JPanel buttonPanel = new JPanel();
+			JButton playAgain = new JButton();
+			playAgain.setText("Play Again");
+			playAgain.setSize(200, 50);
+			buttonPanel.add(playAgain);
+			playAgain.addActionListener(this);
+			playAgain.setActionCommand("PLAY_AGAIN");
+			
+			pane.add(buttonPanel);
+			
+			winner.setContentPane(pane);
+			winner.pack();
+			winner.setLocationRelativeTo(null);
+
+			winner.setVisible(true);
+			game.setTurn(3);
+		} else if (game.isMultiplayer()&&(cp2Hand.numberOfCards()==0)) {
+			winner = new JFrame();
+			winner.setSize(600,250);
+			JPanel pane = new JPanel();
+			pane.setLayout(new BorderLayout(0, 10));
+
+			JPanel titlePanel = new JPanel();
+			JLabel title = new JLabel("Sorry, you lost to Computer Player 2.");
+			title.setFont(new Font("Tacoma", Font.PLAIN, 20));
+			titlePanel.add(title);
+		//	titlePanel.setPreferredSize(title.getPreferredSize());
+			GridLayout layout = new GridLayout(2, 2);
+			layout.setHgap(5);
+			layout.setVgap(5);
+			
+			titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0));
+			pane.add(titlePanel, BorderLayout.NORTH);
+
+			
+			JPanel buttonPanel = new JPanel();
+			JButton playAgain = new JButton();
+			playAgain.setText("Play Again");
+			playAgain.setSize(200, 50);
+			buttonPanel.add(playAgain);
+			playAgain.addActionListener(this);
+			playAgain.setActionCommand("PLAY_AGAIN");
+			
+			pane.add(buttonPanel);
+			//			ArrayList<JLabel> cardImages = new ArrayList<JLabel>();
+			winner.setContentPane(pane);
+			winner.pack();
+			winner.setLocationRelativeTo(null);
+
+			winner.setVisible(true);
+			game.setTurn(3);
+		}
 	}
 
 	//
@@ -1058,9 +1175,9 @@ public class UNO implements ActionListener, MouseListener {
 											if (destinationLocX != cardLoc.x || destinationLocY != cardLoc.y) {
 												cardLoc.translate(
 														(destinationLocX - cardLoc.x)
-																/ (abs(destinationLocX - cardLoc.x)),
+														/ (abs(destinationLocX - cardLoc.x)),
 														(destinationLocY - cardLoc.y)
-																/ (abs(destinationLocY - cardLoc.y)));
+														/ (abs(destinationLocY - cardLoc.y)));
 												label.setBounds(cardLoc);
 												if (!game.isMultiplayer()) {
 													twoPlayerGameScreen.repaint();
