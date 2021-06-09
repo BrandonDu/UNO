@@ -759,47 +759,6 @@ public class UNO implements ActionListener, MouseListener {
 
 			int randIndex = (int) (cp.getHand().numberOfCards() * Math.random());
 
-			// javax.swing.Timer timer = new javax.swing.Timer(1, new ActionListener() {
-			// int destinationLocX = 750;
-			// int destinationLocY = 400;
-			//
-			// @Override
-			// public void actionPerformed(ActionEvent e) {
-			// JLabel movingLabel = cp1CardLabels.get(randIndex);
-			//
-			// Rectangle cardLoc = movingLabel.getBounds();
-			// if (destinationLocX != cardLoc.x || destinationLocY != cardLoc.y) {
-			// cardLoc.translate((destinationLocX - cardLoc.x) / (abs(destinationLocX -
-			// cardLoc.x)),
-			// (destinationLocY - cardLoc.y) / (abs(destinationLocY - cardLoc.y)));
-			// movingLabel.setBounds(cardLoc);
-			// twoPlayerGameScreen.repaint();
-			// } else {
-			// if(!game.isMultiplayer()) {
-			// ((javax.swing.Timer) e.getSource()).stop();
-			// twoPlayerGameScreen.remove(topCard);
-			// topCard = cardLabel;
-			// playerCardLabels.remove(movingLabel);
-			// showComputerCards();
-			// twoPlayerGameScreen.add(topCard);
-			// topCard.setVisible(true);
-			// twoPlayerGameScreen.repaint();
-			// }
-			// else {
-			// ((javax.swing.Timer) e.getSource()).stop();
-			// threePlayerGameScreen.remove(topCard);
-			// topCard = cardLabel;
-			// playerCardLabels.remove(movingLabel);
-			// showComputerCards();
-			// threePlayerGameScreen.add(topCard);
-			// topCard.setVisible(true);
-			// threePlayerGameScreen.repaint();
-			// }
-			// }
-			// }
-			// });
-			// timer.setInitialDelay(0);
-			// timer.start();
 			Timer timer = new Timer();
 
 			TimerTask task = new TimerTask() {
@@ -852,29 +811,6 @@ public class UNO implements ActionListener, MouseListener {
 			} else
 				threePlayerGameScreen.add(movingCardLabel);
 
-			// javax.swing.Timer timer = new javax.swing.Timer(1, new ActionListener() {
-			// public void actionPerformed(ActionEvent e) {
-			// Rectangle deckCardLoc = movingCardLabel.getBounds();
-			// int destinationLocX = findLeftMostPosition()+52;
-			// if (deckCardLoc.x != destinationLocX || deckCardLoc.y != destinationLocY) {
-			// deckCardLoc.translate(
-			// (destinationLocX - deckCardLoc.x) / abs(destinationLocX - deckCardLoc.x),
-			// (destinationLocY - deckCardLoc.y) / abs(destinationLocY - deckCardLoc.y));
-			// movingCardLabel.setBounds(deckCardLoc);
-			// if(!game.isMultiplayer())
-			// twoPlayerGameScreen.repaint();
-			// else
-			// threePlayerGameScreen.repaint();
-			// } else {
-			// game.dealCard(cp1Hand);
-			// movingCardLabel.setVisible(false);
-			// ((javax.swing.Timer) e.getSource()).stop();
-			// showComputerCards();
-			// }
-			// }
-			// });
-			// timer.setInitialDelay(0);
-			// timer.start();
 			Timer timer = new Timer();
 
 			TimerTask task = new TimerTask() {
@@ -936,32 +872,6 @@ public class UNO implements ActionListener, MouseListener {
 					} else {
 						twoPlayerGameScreen.add(movingCardLabel);
 					}
-
-					// javax.swing.Timer timer = new javax.swing.Timer(1, new ActionListener() {
-					// public void actionPerformed(ActionEvent e) {
-					// Rectangle deckCardLoc = movingCardLabel.getBounds();
-					// int destinationLocX = findRightmostPosition() + 52;
-					// if (deckCardLoc.x != destinationLocX || deckCardLoc.y != destinationLocY) {
-					// deckCardLoc.translate(
-					// (destinationLocX - deckCardLoc.x) / abs(destinationLocX - deckCardLoc.x),
-					// (destinationLocY - deckCardLoc.y) / abs(destinationLocY - deckCardLoc.y));
-					// movingCardLabel.setBounds(deckCardLoc);
-					// if (game.isMultiplayer()) {
-					// threePlayerGameScreen.repaint();
-					// } else {
-					// twoPlayerGameScreen.repaint();
-					// }
-					// } else {
-					// game.dealCard(playerHand);
-					// movingCardLabel.setVisible(false);
-					// ((javax.swing.Timer) e.getSource()).stop();
-					// showPlayerCards();
-					// play(game.getTurn());
-					// }
-					// }
-					// });
-					// timer.setInitialDelay(0);
-					// timer.start();
 
 					Timer timer = new Timer();
 
@@ -1136,34 +1046,7 @@ public class UNO implements ActionListener, MouseListener {
 										selectCard.setVisible(true);
 
 									}
-									// javax.swing.Timer timer = new javax.swing.Timer(1, new ActionListener() {
-									// public void actionPerformed(ActionEvent e) {
-									// Rectangle deckCardLoc = label.getBounds();
-									// if (deckCardLoc.x != 750 || deckCardLoc.y != 400) {
-									// deckCardLoc.translate((750 - deckCardLoc.x) / abs(750 - deckCardLoc.x),
-									// (400 - deckCardLoc.y) / abs(400 - deckCardLoc.y));
-									// label.setBounds(deckCardLoc);
-									// if (game.isMultiplayer()) {
-									// threePlayerGameScreen.repaint();
-									// } else {
-									// twoPlayerGameScreen.repaint();
-									// }
-									// } else {
-									// ((javax.swing.Timer) e.getSource()).stop();
-									// topCard.setVisible(false);
-									// topCard = label;
-									// playerCardLabels.remove(label);
-									// topCard.setVisible(true);
-									// showPlayerCards();
-									// clickedLabel = null;
-									//
-									// if (card.getColor() != Card.WILD)
-									// play(game.getTurn());
-									// }
-									// }
-									// });
 									Timer timer = new Timer();
-
 									TimerTask task = new TimerTask() {
 
 										@Override
@@ -1244,7 +1127,6 @@ public class UNO implements ActionListener, MouseListener {
 
 	public static void main(String[] args) {
 		UNO uno = new UNO();
-
 	}
 
 }

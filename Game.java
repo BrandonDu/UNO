@@ -32,7 +32,6 @@ public class Game {
 
 		if (multiplayer) {
 			for (int i = 0; i < 7; i++) {
-
 				dealCard(cp2.getHand());
 			}
 		}
