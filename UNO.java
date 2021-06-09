@@ -711,16 +711,16 @@ public class UNO implements ActionListener, MouseListener {
 	private void playComputerCard(ComputerStrategy cp) {
 		boolean lastPlus;
 		System.out.println(game.getTotalPlus());
-		System.out.println();
-		if(game.getTotalPlus()!=0) {
+		System.out.println("turn: " + game.getTurn());
+		if(game.getTotalPlus()!=0) 
 			lastPlus = true;
-		}
 		else
 			lastPlus = false;
+		System.out.println(lastPlus);
 		Card card = cp.chooseCard(game.getTopCard(), lastPlus);
 		System.out.println(card);
 		int index = cp.getHand().getCards().indexOf(card);
-		
+		System.out.println("Index: " + index);
 		if (card != null) {
 			int color = 4;
 			if (card.getColor() == Card.WILD) {
@@ -764,6 +764,7 @@ public class UNO implements ActionListener, MouseListener {
 			cardLabel.setBounds(topCard.getBounds());
 			
 			if (!game.isMultiplayer()) {
+				System.out.println("here!");
 				game.playCard(cp1Hand, card);
 			} else {
 				if(game.getTurn() == 1)

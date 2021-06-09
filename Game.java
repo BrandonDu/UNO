@@ -117,6 +117,7 @@ public class Game {
 	}
 
 	public int dealCard(Hand hand) {
+		System.out.println("totPlus " + totalPlus);
 		for(int i=0; i<totalPlus + 1; i++) {
 			int randIndex = (int) (deck.numberOfCards() * Math.random());
 			hand.addCard(deck.nthCard(randIndex));
@@ -125,7 +126,6 @@ public class Game {
 		}
 		int tBuffer = totalPlus + 1;
 		totalPlus = 0;
-
 		return tBuffer;
 	}
 
@@ -202,14 +202,16 @@ public class Game {
 						changeTurn(false);
 					totalPlus = 0;
 					return true;
-				} else if ((card.getColor() == topCard.getColor() && topCard.getValue()!=Card.PLUS_TWO && topCard.getValue()!=Card.PLUS_FOUR) || card.getValue() == topCard.getValue()) {
+				} else if ((card.getColor() == topCard.getColor() && totalPlus==0) || card.getValue() == topCard.getValue()) {
 					if (card.getValue() == Card.PLUS_TWO)
 						totalPlus += 2;
 					else if (card.getValue() == Card.PLUS_FOUR)
 						totalPlus += 4;
 					else
 						totalPlus = 0;
+					System.out.println(hand.numberOfCards());
 					hand.removeCard(card);
+					System.out.println(hand.numberOfCards());
 					this.setTopCard(card);
 					if (card.getValue() == 10)
 						changeTurn(true);
@@ -221,6 +223,7 @@ public class Game {
 					return true;
 				}
 			}
+			System.out.println("c");
 			return false;
 		} else {
 			if (turn == 0 && hand == playerHand || turn == 1 && hand == cp1.getHand()
