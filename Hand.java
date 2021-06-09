@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Hand {
 
@@ -14,14 +13,7 @@ public class Hand {
 	}
 
 	public void removeCard(Card card) {
-		if (getCards().size() > 0) {
-			for (Card c : getCards()) {
-				if (c.toString().equals(card.toString())) {
-					getCards().remove(c);
-					return;
-				}
-			}
-		}
+		
 		getCards().remove(card);
 	}
 
