@@ -116,11 +116,17 @@ public class Game {
 		this.turn = turn;
 	}
 
-	public void dealCard(Hand hand) {
-		int randIndex = (int) (deck.numberOfCards() * Math.random());
-		hand.addCard(deck.nthCard(randIndex));
-		getDeck().removeCard(deck.nthCard(randIndex));
-		changeTurn(false);
+	public int dealCard(Hand hand) {
+		for(int i=0; i<totalPlus + 1; i++) {
+			int randIndex = (int) (deck.numberOfCards() * Math.random());
+			hand.addCard(deck.nthCard(randIndex));
+			getDeck().removeCard(deck.nthCard(randIndex));
+			changeTurn(false);
+		}
+		int tBuffer = totalPlus + 1;
+		totalPlus = 0;
+
+		return tBuffer;
 	}
 
 	public int getTurn() {
@@ -180,15 +186,11 @@ public class Game {
 	}
 
 	public boolean playCard(Hand hand, Card card) {
-		System.out.println(card.getColor());
-		System.out.println(card.getValue());
-		System.out.println(topCard.getColor());
-		System.out.println(topCard.getValue());
-		
+
 		if (!multiplayer) {
 			if (turn == 0 && hand == playerHand || turn == 1 && hand == cp1.getHand()) {
-				
-				if (card.getColor() == Card.WILD || card.getValue() == Card.WILD_CARD) {
+				if ((card.getColor() == Card.WILD || card.getValue() == Card.WILD_CARD) 
+						&& (topCard.getValue()!=Card.PLUS_TWO && topCard.getValue() !=Card.PLUS_FOUR)) {
 					hand.removeCard(card);
 					this.setTopCard(card);
 					if (card.getValue() == 10)
@@ -198,12 +200,15 @@ public class Game {
 						clockwise = false;
 					} else
 						changeTurn(false);
+					totalPlus = 0;
 					return true;
-				} else if (card.getColor() == topCard.getColor() || card.getValue() == topCard.getValue()) {
+				} else if ((card.getColor() == topCard.getColor() && topCard.getValue()!=Card.PLUS_TWO && topCard.getValue()!=Card.PLUS_FOUR) || card.getValue() == topCard.getValue()) {
 					if (card.getValue() == Card.PLUS_TWO)
 						totalPlus += 2;
-					if (card.getValue() == Card.PLUS_FOUR)
+					else if (card.getValue() == Card.PLUS_FOUR)
 						totalPlus += 4;
+					else
+						totalPlus = 0;
 					hand.removeCard(card);
 					this.setTopCard(card);
 					if (card.getValue() == 10)

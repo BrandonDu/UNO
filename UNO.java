@@ -30,7 +30,7 @@ public class UNO implements ActionListener, MouseListener {
 	private JPanel optionScreen;
 	private JPanel twoPlayerGameScreen;
 	private JPanel threePlayerGameScreen;
-
+	
 	private JLabel clickedLabel;
 	private JLabel deckCard;
 	private JLabel topCard;
@@ -431,9 +431,9 @@ public class UNO implements ActionListener, MouseListener {
 				cp1CardLabels.set(i, imageLabel);
 			}
 		} else {
-			playerCardLabels = new ArrayList<JLabel>();
+			cp1CardLabels = new ArrayList<JLabel>();
 			for (int i = 0; i < 32; i++) {
-				playerCardLabels.add(null);
+				cp1CardLabels.add(null);
 			}
 			for (int i = numCard - 1; i >= 16; i--) {
 				ImageIcon image = new ImageIcon("Pictures/BC.png");
@@ -443,7 +443,7 @@ public class UNO implements ActionListener, MouseListener {
 				imageLabel.setBounds(1073 - 52 * (i - 16), 77, dim.width, dim.height);
 				imageLabel.addMouseListener(this);
 				twoPlayerGameScreen.add(imageLabel);
-				playerCardLabels.set(i, imageLabel);
+				cp1CardLabels.set(i, imageLabel);
 				showAllCards.setVisible(false);
 			}
 			for (int i = 15; i >= 0; i--) {
@@ -454,7 +454,7 @@ public class UNO implements ActionListener, MouseListener {
 				imageLabel.setBounds(1073 - 52 * i, 27, dim.width, dim.height);
 				imageLabel.addMouseListener(this);
 				twoPlayerGameScreen.add(imageLabel);
-				playerCardLabels.set(i, imageLabel);
+				cp1CardLabels.set(i, imageLabel);
 				showAllCards.setVisible(false);
 			}
 		}
@@ -704,7 +704,18 @@ public class UNO implements ActionListener, MouseListener {
 	}
 
 	private void playComputerCard(ComputerStrategy cp) {
-		Card card = cp.chooseCard(game.getTopCard());
+		boolean lastPlus;
+		System.out.println(game.getTotalPlus());
+		System.out.println();
+		if(game.getTotalPlus()!=0) {
+			lastPlus = true;
+		}
+		else
+			lastPlus = false;
+		Card card = cp.chooseCard(game.getTopCard(), lastPlus);
+		System.out.println(card);
+		int index = cp.getHand().getCards().indexOf(card);
+		
 		if (card != null) {
 			int color = 4;
 			if (card.getColor() == Card.WILD) {
@@ -746,18 +757,19 @@ public class UNO implements ActionListener, MouseListener {
 			icon = scaleImage(icon, 0.3, 0.3);
 			JLabel cardLabel = new JLabel(icon);
 			cardLabel.setBounds(topCard.getBounds());
+			
 			if (!game.isMultiplayer()) {
 				game.playCard(cp1Hand, card);
 			} else {
-				game.playCard(cp2Hand, card);
+				if(game.getTurn() == 1)
+					game.playCard(cp1Hand, card);
+				else 
+					game.playCard(cp2Hand, card);
 			}
 
 			if (color != 4) {
 				game.setTopCard(new Card(color + 1, Card.WILD_CARD));
 			}
-
-			int randIndex = (int) (cp.getHand().numberOfCards() * Math.random());
-
 			Timer timer = new Timer();
 
 			TimerTask task = new TimerTask() {
@@ -765,7 +777,7 @@ public class UNO implements ActionListener, MouseListener {
 				public void run() {
 					int destinationLocX = 750;
 					int destinationLocY = 400;
-					JLabel movingLabel = cp1CardLabels.get(randIndex);
+					JLabel movingLabel = cp1CardLabels.get(index);
 					Rectangle cardLoc = movingLabel.getBounds();
 					if (destinationLocX != cardLoc.x || destinationLocY != cardLoc.y) {
 						cardLoc.translate((destinationLocX - cardLoc.x) / (abs(destinationLocX - cardLoc.x)),
@@ -775,17 +787,21 @@ public class UNO implements ActionListener, MouseListener {
 					} else {
 						if (!game.isMultiplayer()) {
 							twoPlayerGameScreen.remove(topCard);
-							topCard = cardLabel;
+							
+							twoPlayerGameScreen.remove(movingLabel);
 							playerCardLabels.remove(movingLabel);
-							showComputerCards();
+							
+							topCard = cardLabel;
 							twoPlayerGameScreen.add(topCard);
-							topCard.setVisible(true);
+							showComputerCards();
 							twoPlayerGameScreen.repaint();
+							
+							play(game.getTurn());
 							timer.cancel();
 						} else {
-							twoPlayerGameScreen.remove(topCard);
+							threePlayerGameScreen.remove(topCard);
 							topCard = cardLabel;
-							playerCardLabels.remove(movingLabel);
+							cp1CardLabels.remove(movingLabel);
 							showComputerCards();
 							twoPlayerGameScreen.add(topCard);
 							topCard.setVisible(true);
@@ -796,7 +812,6 @@ public class UNO implements ActionListener, MouseListener {
 				}
 			};
 			timer.scheduleAtFixedRate(task, 0, 1);
-			play(game.getTurn());
 		} else {
 			ImageIcon image = new ImageIcon("Pictures/BC.png");
 			image = scaleImage(image, 123d / 318, 175d / 434);
@@ -830,6 +845,7 @@ public class UNO implements ActionListener, MouseListener {
 						twoPlayerGameScreen.repaint();
 					} else {
 						game.dealCard(cp1Hand);
+						cp1CardLabels.add(movingCardLabel);
 						movingCardLabel.setVisible(false);
 						showComputerCards();
 						timer.cancel();
@@ -1073,6 +1089,7 @@ public class UNO implements ActionListener, MouseListener {
 												timer.cancel();
 												if (card.getColor() != Card.WILD)
 													play(game.getTurn());
+												
 											}
 										}
 

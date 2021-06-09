@@ -14,14 +14,14 @@ public class ComputerStrategy {
 		this.hand = hand;
 	}
 
-	public Card chooseCard(Card topCard) {
+	public Card chooseCard(Card topCard, boolean lastPlus) {
 		for (Card card : hand.getCards()) {
 			if ((card.getColor()==topCard.getColor())&&(card.getValue()==12)) {
 				return card;
-			} else if ((card.getColor()==topCard.getColor())||
+			} else if ((card.getColor()==topCard.getColor() && !lastPlus)||
 					(card.getValue()==topCard.getValue())){
 				return card;
-			} else if ((card.getValue()==13)||(card.getValue()==14)) {
+			} else if ((card.getValue()==13)||(card.getValue()==14) && !lastPlus) {
 				return card;
 			}
 		}
