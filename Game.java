@@ -27,7 +27,7 @@ public class Game {
 		}
 
 		for (int i = 0; i < 7; i++) {
-			cp1.getHand().addCard(new Card(Card.WILD, Card.WILD_CARD));
+			dealCard(cp1.getHand());
 		}
 
 		if (multiplayer) {
@@ -130,7 +130,7 @@ public class Game {
 	public void changeTurn(boolean skip) {
 		if (!multiplayer) {
 			turn = (turn + 1) % 2;
-			if (skip && clockwise)
+			if (skip)
 				turn = (turn + 1) % 2;
 		} else {
 			turn = (turn + 1) % 3;
@@ -180,11 +180,14 @@ public class Game {
 	}
 
 	public boolean playCard(Hand hand, Card card) {
+		System.out.println(card.getColor());
+		System.out.println(card.getValue());
+		System.out.println(topCard.getColor());
+		System.out.println(topCard.getValue());
+		
 		if (!multiplayer) {
 			if (turn == 0 && hand == playerHand || turn == 1 && hand == cp1.getHand()) {
-				if(hand == cp1.getHand()) {
-					System.out.println(cp1.getHand().numberOfCards());
-				}
+				
 				if (card.getColor() == Card.WILD || card.getValue() == Card.WILD_CARD) {
 					hand.removeCard(card);
 					this.setTopCard(card);

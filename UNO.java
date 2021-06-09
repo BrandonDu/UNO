@@ -710,7 +710,6 @@ public class UNO implements ActionListener, MouseListener {
 
 	private void playComputerCard(ComputerStrategy cp) {
 		Card card = cp.chooseCard(game.getTopCard());
-		System.out.println(card);
 		if (card != null) {
 			int color = 4;
 			if (card.getColor() == Card.WILD) {
@@ -767,7 +766,6 @@ public class UNO implements ActionListener, MouseListener {
 			Timer timer = new Timer();
 
 			TimerTask task = new TimerTask() {
-
 				@Override
 				public void run() {
 					int destinationLocX = 750;
@@ -801,10 +799,9 @@ public class UNO implements ActionListener, MouseListener {
 						}
 					}
 				}
-
 			};
 			timer.scheduleAtFixedRate(task, 0, 1);
-
+			play(game.getTurn());
 		} else {
 			ImageIcon image = new ImageIcon("Pictures/BC.png");
 			image = scaleImage(image, 123d / 318, 175d / 434);
@@ -841,12 +838,12 @@ public class UNO implements ActionListener, MouseListener {
 						movingCardLabel.setVisible(false);
 						showComputerCards();
 						timer.cancel();
+						play(game.getTurn());
 					}
 				}
 
 			};
 			timer.scheduleAtFixedRate(task, 0, 1);
-
 		}
 
 	}
