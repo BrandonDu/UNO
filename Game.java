@@ -9,6 +9,7 @@ public class Game {
 	private int turn;
 	private int totalPlus;
 	private boolean multiplayer;
+	private boolean clockwise;
 
 	Game(boolean multiplayer) {
 		this.multiplayer = multiplayer;
@@ -40,6 +41,7 @@ public class Game {
 		totalPlus = 0;
 		setStartingCard();
 		topCard = startingCard;
+		clockwise = true;
 	}
 
 	public int getTotalPlus() {
@@ -129,11 +131,11 @@ public class Game {
 	public void changeTurn(boolean skip) {
 		if (!multiplayer) {
 			turn = (turn + 1) % 2;
-			if (skip)
+			if (skip && clockwise)
 				turn = (turn + 1) % 2;
 		} else {
 			turn = (turn + 1) % 3;
-			if (skip)
+			if (skip && clockwise)
 				turn = (turn + 1) % 3;
 		}
 
@@ -179,22 +181,40 @@ public class Game {
 	}
 
 	public boolean playCard(Hand hand, Card card) {
+		System.out.println(card.getColor());
+		System.out.println(card.getValue());
+		System.out.println(topCard.getColor());
+		System.out.println(topCard.getValue());
 		if (!multiplayer) {
 			if (turn == 0 && hand == playerHand || turn == 1 && hand == cp1.getHand()) {
+				System.out.println("here!");
 				if (card.getColor() == Card.WILD || card.getValue() == Card.WILD_CARD) {
 					hand.removeCard(card);
 					this.setTopCard(card);
-					changeTurn(false);
+					if (card.getValue() == 10)
+						changeTurn(true);
+					else if (card.getValue() == 11) {
+						changeTurn(true);
+						clockwise = false;
+					} else
+						changeTurn(false);
 					return true;
 				} else if (card.getColor() == topCard.getColor() || card.getValue() == topCard.getValue()) {
+					System.out.println("here?");
+
 					if (card.getValue() == Card.PLUS_TWO)
 						totalPlus += 2;
 					if (card.getValue() == Card.PLUS_FOUR)
 						totalPlus += 4;
 					hand.removeCard(card);
-
 					this.setTopCard(card);
-					changeTurn(false);
+					if (card.getValue() == 10)
+						changeTurn(true);
+					else if (card.getValue() == 11) {
+						changeTurn(true);
+						clockwise = false;
+					} else
+						changeTurn(false);
 					return true;
 				}
 			}
@@ -219,7 +239,6 @@ public class Game {
 				}
 			}
 			return false;
-
 		}
 	}
 
