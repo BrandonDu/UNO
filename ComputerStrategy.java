@@ -17,14 +17,11 @@ public class ComputerStrategy {
 	public Card chooseCard(Card topCard) {
 		for (Card card : hand.getCards()) {
 			if ((card.getColor()==topCard.getColor())&&(card.getValue()==12)) {
-				hand.getCards().remove(card);
 				return card;
 			} else if ((card.getColor()==topCard.getColor())||
 					(card.getValue()==topCard.getValue())){
-				hand.getCards().remove(card);
 				return card;
 			} else if ((card.getValue()==13)||(card.getValue()==14)) {
-				hand.getCards().remove(card);
 				return card;
 			}
 		}

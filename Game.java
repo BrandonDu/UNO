@@ -24,12 +24,11 @@ public class Game {
 		for (int i = 0; i < 7; i++) {
 			dealCard(playerHand);
 		}
-		playerHand.addCard(new Card(5, 14));
-		playerHand.addCard(new Card(5, 14));
 
 		for (int i = 0; i < 7; i++) {
 			dealCard(getCp1().getHand());
 		}
+		getCp1().getHand().addCard(new Card(Card.WILD,Card.WILD_CARD));
 
 		if (multiplayer) {
 			dealCard(cp2.getHand());
