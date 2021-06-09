@@ -39,11 +39,4 @@ public class ComputerStrategy {
 		}
 		return color;
 	}
-	
-	public static void main (String[] args) {
-		ComputerStrategy test = new ComputerStrategy();
-		test.hand.addCard(new Card(1, 1));
-		test.hand.addCard(new Card(5, 14));
-		test.chooseCard(new Card(3, 2));
-	}
 }
