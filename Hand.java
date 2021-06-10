@@ -92,12 +92,6 @@ public class Hand {
 		}
 	}
 
-	private static void printArray(ArrayList<Card> arr) {
-		for (int i = 0; i < arr.size(); i++)
-			System.out.println(arr.get(i));
-		System.out.println();
-	}
-
 	public static int[] findNumberOfEachColor(ArrayList<Card> arr) {
 		int[] ans = new int[5];
 		for (Card card : arr) {
