@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Game {
 	private Hand playerHand;
@@ -10,6 +11,7 @@ public class Game {
 	private int totalPlus;
 	private boolean multiplayer;
 	private boolean clockwise;
+	private ArrayList<Card> discarded = new ArrayList<Card>();
 
 	Game(boolean multiplayer) {
 		this.multiplayer = multiplayer;
@@ -22,13 +24,19 @@ public class Game {
 			cp2 = new ComputerStrategy();
 		}
 
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i <99; i++) {
 			dealCard(playerHand);
 		}
-
-		for (int i = 0; i < 7; i++) {
-			dealCard(cp1.getHand());
-		}
+		playerHand.addCard(new Card(Card.WILD, Card.WILD_CARD));
+		playerHand.addCard(new Card(Card.WILD, Card.PLUS_FOUR));
+//		for (int i = 0; i < 7; i++) {
+//			dealCard(cp1.getHand());
+//		}
+		cp1.getHand().addCard(new Card(Card.RED, Card.PLUS_TWO));
+		cp1.getHand().addCard(new Card(Card.RED, Card.PLUS_TWO));
+		cp1.getHand().addCard(new Card(Card.RED, Card.PLUS_TWO));
+		cp1.getHand().addCard(new Card(Card.RED, Card.PLUS_TWO));
+		cp1.getHand().addCard(new Card(Card.RED, Card.PLUS_TWO));
 
 		if (multiplayer) {
 			for (int i = 0; i < 7; i++) {
@@ -117,16 +125,28 @@ public class Game {
 	}
 
 	public int dealCard(Hand hand) {
-		System.out.println("totPlus " + totalPlus);
-		for(int i=0; i<totalPlus + 1; i++) {
-			int randIndex = (int) (deck.numberOfCards() * Math.random());
-			hand.addCard(deck.nthCard(randIndex));
-			getDeck().removeCard(deck.nthCard(randIndex));
-			changeTurn(false);
+		if(totalPlus != 0) {
+			int tBuffer = totalPlus + 1;
+			
+			for(int i=0; i<totalPlus && deck.numberOfCards()>0; i++) {
+				int randIndex = (int) (deck.numberOfCards() * Math.random());
+				hand.addCard(deck.nthCard(randIndex));
+				deck.removeCard(deck.nthCard(randIndex));
+			}
+			changeTurn(true);
+			totalPlus = 0;
+
+			return tBuffer;
 		}
-		int tBuffer = totalPlus + 1;
-		totalPlus = 0;
-		return tBuffer;
+		else {
+				int randIndex = (int) (deck.numberOfCards() * Math.random());
+				hand.addCard(deck.nthCard(randIndex));
+				deck.removeCard(deck.nthCard(randIndex));
+				changeTurn(false);
+				totalPlus = 0;
+		}
+		return 0;
+
 	}
 
 	public int getTurn() {
@@ -186,33 +206,32 @@ public class Game {
 	}
 
 	public boolean playCard(Hand hand, Card card) {
-
 		if (!multiplayer) {
 			if (turn == 0 && hand == playerHand || turn == 1 && hand == cp1.getHand()) {
-				if ((card.getColor() == Card.WILD || card.getValue() == Card.WILD_CARD) 
-						&& (topCard.getValue()!=Card.PLUS_TWO && topCard.getValue() !=Card.PLUS_FOUR)) {
+
+				if ((card.getColor() == Card.WILD && card.getValue()!=Card.PLUS_FOUR 
+						|| card.getValue() == Card.WILD_CARD) && totalPlus==0) {
 					hand.removeCard(card);
 					this.setTopCard(card);
-					if (card.getValue() == 10)
-						changeTurn(true);
-					else if (card.getValue() == 11) {
-						changeTurn(true);
-						clockwise = false;
-					} else
-						changeTurn(false);
 					totalPlus = 0;
+					changeTurn(false);
+					getDiscarded().add(card);
 					return true;
-				} else if ((card.getColor() == topCard.getColor() && totalPlus==0) || card.getValue() == topCard.getValue()) {
-					if (card.getValue() == Card.PLUS_TWO)
+				} else if ((card.getColor() == topCard.getColor() && totalPlus==0) || card.getValue() == topCard.getValue() 
+						|| (card.getValue()==Card.PLUS_FOUR && totalPlus==0)) {
+					if (card.getValue() == Card.PLUS_TWO) {
 						totalPlus += 2;
-					else if (card.getValue() == Card.PLUS_FOUR)
+					}
+					else if (card.getValue() == Card.PLUS_FOUR) {
+
 						totalPlus += 4;
+					}
 					else
 						totalPlus = 0;
-					System.out.println(hand.numberOfCards());
 					hand.removeCard(card);
-					System.out.println(hand.numberOfCards());
 					this.setTopCard(card);
+					getDiscarded().add(card);
+
 					if (card.getValue() == 10)
 						changeTurn(true);
 					else if (card.getValue() == 11) {
@@ -223,7 +242,6 @@ public class Game {
 					return true;
 				}
 			}
-			System.out.println("c");
 			return false;
 		} else {
 			if (turn == 0 && hand == playerHand || turn == 1 && hand == cp1.getHand()
@@ -246,6 +264,43 @@ public class Game {
 			}
 			return false;
 		}
+	}
+
+	public boolean canPlayCard(Hand hand) {
+
+		if(topCard.getValue()==Card.PLUS_FOUR && totalPlus > 0)
+			return false;
+		else if(topCard.getValue() == Card.PLUS_TWO && totalPlus > 0) {
+			for(Card card : hand.getCards()) {
+				if(card.getValue()==Card.PLUS_TWO) {
+					return true;
+				}
+			}
+			return false;
+		}
+		else {
+			for(Card card : hand.getCards()) {
+				if(card.getValue()==topCard.getValue() || card.getColor() == topCard.getColor())
+					return true;
+			}
+			return false;
+		}
+	}
+
+	public ArrayList<Card> getDiscarded() {
+		return discarded;
+	}
+
+	public void setDiscarded(ArrayList<Card> discarded) {
+		this.discarded = discarded;
+	}
+	
+	public void remakeDeck() {
+		deck = new Hand();
+		for(Card card : discarded) {
+			deck.addCard(card);
+		}
+		discarded.clear();
 	}
 
 }

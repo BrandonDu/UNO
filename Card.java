@@ -52,189 +52,148 @@ public class Card {
 				this.value = PLUS_FOUR;
 			} else if (value.toLowerCase().equals("wild card")) {
 				this.value = WILD_CARD;
-			}
-			else if(value.toLowerCase().equals("back"))
+			} else if (value.toLowerCase().equals("back"))
 				this.value = BACK;
 			this.setColor();
 		}
 	}
 
 	public void setColor() {
-		if (getValue()==0) {
+		if (getValue() == 0) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/R0.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/Y0.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/G0.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/B0.png");
 			}
-		} else if (getValue()==1) {
+		} else if (getValue() == 1) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/R1.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/Y1.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/G1.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/B1.png");
 			}
-		} else if (getValue()==2) {
+		} else if (getValue() == 2) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/R2.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/Y2.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/G2.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/B2.png");
 			}
-		} else if (getValue()==3) {
+		} else if (getValue() == 3) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/R3.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/Y3.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/G3.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/B3.png");
 			}
-		} else if (getValue()==4) {
+		} else if (getValue() == 4) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/R4.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/Y4.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/G4.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/B4.png");
 			}
-		} else if (getValue()==5) {
+		} else if (getValue() == 5) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/R5.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/Y5.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/G5.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/B5.png");
 			}
-		} else if (getValue()==6) {
+		} else if (getValue() == 6) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/R6.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/Y6.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/G6.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/B6.png");
 			}
-		} else if (getValue()==7) {
+		} else if (getValue() == 7) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/R7.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/Y7.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/G7.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/B7.png");
 			}
-		} else if (getValue()==8) {
+		} else if (getValue() == 8) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/R8.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/Y8.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/G8.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/B8.png");
 			}
-		} else if (getValue()==9) {
+		} else if (getValue() == 9) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/R9.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/Y9.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/G9.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/B9.png");
 			}
-		} else if (getValue()==10) {
+		} else if (getValue() == 10) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/RR.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/YR.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/GR.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/BR.png");
 			}
-		} else if (getValue()==11) {
+		} else if (getValue() == 11) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/RS.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/YS.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/GS.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/BS.png");
 			}
-		} else if (getValue()==12) {
+		} else if (getValue() == 12) {
 			if (getColor() == 1) {
 				cardImage = new ImageIcon("Pictures/R+2.png");
-			}
-			else if (getColor() == 2) {
+			} else if (getColor() == 2) {
 				cardImage = new ImageIcon("Pictures/Y+2.png");
-			}
-			else if (getColor() == 3) {
+			} else if (getColor() == 3) {
 				cardImage = new ImageIcon("Pictures/G+2.png");
-			}
-			else if (getColor() == 4) {
+			} else if (getColor() == 4) {
 				cardImage = new ImageIcon("Pictures/B+2.png");
 			}
-		} else if (getValue()==13) {
+		} else if (getValue() == 13) {
 			cardImage = new ImageIcon("Pictures/W+4.png");
-		} else if (getValue()==14) {
+		} else if (getValue() == 14) {
 			cardImage = new ImageIcon("Pictures/W.png");
-		}
-		else if (getValue()==15) {
+		} else if (getValue() == 15) {
 			cardImage = new ImageIcon("Pictures/BC.png");
 		}
 	}
@@ -282,9 +241,9 @@ public class Card {
 				value = "Back";
 			}
 		}
-		if(this.color != Card.WILD && this.value!=Card.BACK) 
+		if (this.color != Card.WILD && this.value != Card.BACK)
 			return color + " " + value;
-		else 
+		else
 			return value;
 	}
 

@@ -15,13 +15,20 @@ public class ComputerStrategy {
 	}
 
 	public Card chooseCard(Card topCard, boolean lastPlus) {
+		System.out.println(topCard.getColor());
+		System.out.println(topCard.getValue());
 		for (Card card : hand.getCards()) {
+			System.out.println(card.getColor());
+			System.out.println(card.getValue());
 			if ((card.getColor()==topCard.getColor())&&(card.getValue()==12)) {
+				System.out.println("a");
 				return card;
 			} else if ((card.getColor()==topCard.getColor() && !lastPlus)||
 					(card.getValue()==topCard.getValue())){
+				System.out.println("b");
 				return card;
 			} else if ((card.getValue()==13)||(card.getValue()==14) && !lastPlus) {
+				System.out.println("c");
 				return card;
 			}
 		}
